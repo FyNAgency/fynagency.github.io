@@ -23,9 +23,10 @@ const fmt = (n: number) => n.toLocaleString('es-CO');
   <div class="pin" data-reel-pin>
     <div class="wrap intro">
       <span class="eyebrow">Resultados reales</span>
-      <h2>Videos que<br />la gente<br /><em>sí</em> ve.</h2>
+      <h2>Videos que <br />la gente <br /><em>sí</em> ve.</h2>
       <p>Métricas tomadas de Instagram y TikTok, de negocios para los que grabamos.</p>
     </div>
+    <div class="viewport" data-reel-viewport>
     <div class="track" data-reel-track>
       {cards.map((c) => (
         <article class="card" style={`--c: ${c.color}; --on: ${c.ink}`}>
@@ -37,6 +38,7 @@ const fmt = (n: number) => n.toLocaleString('es-CO');
         </article>
       ))}
     </div>
+    </div>
   </div>
 </section>
 
@@ -47,7 +49,9 @@ const fmt = (n: number) => n.toLocaleString('es-CO');
   h2 { font-size: clamp(2.6rem, 5.6vw, 5.6rem); }
   em { font-style: normal; color: var(--red); }
   .intro p { color: var(--muted); max-width: 32ch; }
-  .track { display: flex; gap: 22px; padding-right: max(var(--gutter), env(safe-area-inset-right, 0px)); will-change: transform; }
+  /* cards travel inside this window, so they never slide over the heading */
+  .viewport { flex: 1; min-width: 0; overflow: hidden; padding-block: 70px; margin-block: -70px; }
+  .track { display: flex; gap: 22px; width: max-content; padding-right: max(var(--gutter), env(safe-area-inset-right, 0px)); will-change: transform; }
   .card {
     flex: none; width: clamp(240px, 22vw, 320px); background: var(--c); color: var(--on);
     border-radius: 28px; padding: 14px 14px 20px; display: grid; gap: 16px;
@@ -61,13 +65,16 @@ const fmt = (n: number) => n.toLocaleString('es-CO');
   .meta span { font: 500 .78rem var(--font-mono); letter-spacing: .08em; text-transform: uppercase; opacity: .85; }
 
   @media (max-width: 900px) {
-    .pin { flex-direction: column; align-items: stretch; min-height: 0; }
-    .intro { width: auto; padding-right: max(var(--gutter), env(safe-area-inset-right, 0px)) !important; }
-    .track {
-      overflow-x: auto; scroll-snap-type: x mandatory; padding-left: max(var(--gutter), env(safe-area-inset-left, 0px));
-      padding-bottom: 56px; scrollbar-width: none;
-    }
-    .track::-webkit-scrollbar { display: none; }
-    .card { width: 72vw; max-width: 300px; scroll-snap-align: center; }
+    .reel { padding-top: 24px; }
+    .pin { flex-direction: column; align-items: stretch; justify-content: center; gap: 22px; padding-top: 76px; padding-bottom: 40px; }
+    .intro { width: auto; gap: 10px; padding-right: max(var(--gutter), env(safe-area-inset-right, 0px)) !important; }
+    h2 { font-size: clamp(2rem, 9vw, 2.8rem); }
+    h2 br { display: none; }
+    .intro p { font-size: .95rem; }
+    .track { padding-left: max(var(--gutter), env(safe-area-inset-left, 0px)); gap: 16px; }
+    .card { width: min(56vw, 240px); padding: 10px 10px 16px; gap: 12px; border-radius: 22px; }
+    .card:nth-child(even) { transform: translateY(28px) rotate(1.5deg); }
+    .shot { border-radius: 14px; }
+    .num { font-size: 1.6rem; }
   }
 </style>
