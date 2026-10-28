@@ -35,14 +35,13 @@ if (!reduced) {
   });
 }
 
-/* ---------- header: solid after hero, hides on scroll down ---------- */
+/* ---------- header: solid background once the page scrolls ---------- */
 const header = document.querySelector<HTMLElement>('[data-header]');
 if (header) {
   ScrollTrigger.create({
     start: 'top -40',
     onUpdate: (self) => {
       header.classList.toggle('is-scrolled', self.scroll() > 40);
-      header.classList.toggle('is-hidden', self.direction === 1 && self.scroll() > 400);
     },
   });
 }
@@ -77,9 +76,9 @@ if (!reduced) {
     tl.from(split.words, { yPercent: 110, duration: 1.1, stagger: 0.06 })
       .fromTo(heroTitle.querySelector('.hl'), { '--hl': 0 }, { '--hl': 1, duration: 0.8, ease: 'power2.inOut' }, '-=0.5')
       .from('[data-hero] [data-fade]', { y: 24, opacity: 0, duration: 0.8, stagger: 0.1 }, 0.35)
-      .from('[data-hero] [data-tile]', { scale: 0, rotate: -90, duration: 0.7, stagger: { each: 0.05, from: 'random' }, ease: 'back.out(1.7)' }, 0.2)
-      .from('[data-hero] .disc', { scale: 0.4, opacity: 0, duration: 1 }, 0.3)
-      .from('[data-hero] .phone', { y: 120, rotate: 20, opacity: 0, duration: 1.1 }, 0.45);
+      .from('[data-hero] [data-tile]', { scale: 0, rotate: -90, duration: 0.7, stagger: { each: 0.05, from: 'random' }, ease: 'back.out(1.7)' }, 0.2);
+    if (has('[data-hero] .disc')) tl.from('[data-hero] .disc', { scale: 0.4, opacity: 0, duration: 1 }, 0.3);
+    if (has('[data-hero] .phone')) tl.from('[data-hero] .phone', { y: 120, rotate: 20, opacity: 0, duration: 1.1 }, 0.45);
 
     // the other two reels slide out from behind the main phone, one after the other
     const backLeft = document.querySelector('[data-slot="left"] .phone-back');
@@ -183,6 +182,14 @@ if (!reduced) {
     gsap.to(cell.querySelector('.deco'), { rotate: 180, ease: 'none', scrollTrigger: { trigger: cell, start: 'top bottom', end: 'bottom top', scrub: 1 } });
     const b = cell.querySelector<HTMLElement>('[data-count]');
     if (b) countUp(b, { trigger: cell });
+  });
+
+  /* ---------- packages and payment terms ---------- */
+  gsap.utils.toArray<HTMLElement>('[data-package], [data-term]').forEach((card, i) => {
+    gsap.from(card, { y: 70, rotate: i % 2 ? 2 : -2, opacity: 0, duration: 0.9, ease: 'power3.out', delay: (i % 3) * 0.08, scrollTrigger: { trigger: card, start: 'top 90%' } });
+  });
+  gsap.utils.toArray<HTMLElement>('[data-package] .shape').forEach((shape) => {
+    gsap.to(shape, { rotate: 180, ease: 'none', scrollTrigger: { trigger: shape.closest('[data-package]'), start: 'top bottom', end: 'bottom top', scrub: 1 } });
   });
 
   /* ---------- portfolio projects ---------- */

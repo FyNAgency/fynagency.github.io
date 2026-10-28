@@ -4,7 +4,7 @@ import '../styles/home.css';
 import HomeHeader from '../components/home/HomeHeader.astro';
 import HomeFooter from '../components/home/HomeFooter.astro';
 import Mosaic, { type Tile } from '../components/home/Mosaic.astro';
-import { contacto, whatsappUrl, paquetes } from '../data/propuesta';
+import { contacto, whatsappUrl, paquetes } from '../data/agencia';
 
 const tiles: Tile[] = [
   { shape: 'circle', color: '#2F5BFF' },
@@ -76,10 +76,15 @@ const tiles: Tile[] = [
 
 <script>
   import '../scripts/home-motion.ts';
-  import { whatsappUrl } from '../data/propuesta';
+  import { whatsappUrl } from '../data/agencia';
 
   const form = document.getElementById('contact-form') as HTMLFormElement | null;
   const error = document.getElementById('cf-error');
+
+  // "Quiero el Premium" on /servicios links here with ?paquete=Premium
+  const elegido = new URLSearchParams(location.search).get('paquete');
+  const select = document.getElementById('cf-paquete') as HTMLSelectElement | null;
+  if (elegido && select && [...select.options].some((o) => o.value === elegido)) select.value = elegido;
   form?.addEventListener('submit', (e) => {
     e.preventDefault();
     const data = new FormData(form);

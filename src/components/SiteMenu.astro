@@ -1,18 +1,12 @@
 ---
+import { navLinks, type Pagina } from '../data/agencia';
+
 interface Props {
   /** Which link to mark as the current page. */
-  current?: 'inicio' | 'portafolio' | 'propuesta' | 'contacto';
+  current?: Pagina;
 }
 
 const { current = 'inicio' } = Astro.props;
-
-const links = [
-  { label: 'Inicio', href: '/', key: 'inicio', color: '#FFC21A' },
-  { label: 'Servicios', href: '/#servicios', color: '#2F5BFF' },
-  { label: 'Portafolio', href: '/portafolio', key: 'portafolio', color: '#FF4D2E' },
-  { label: 'Propuesta', href: '/propuesta', key: 'propuesta', color: '#FF9FCB' },
-  { label: 'Contacto', href: '/contacto', key: 'contacto', color: '#1FC99A' },
-];
 ---
 
 <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" data-menu-open>
@@ -27,7 +21,7 @@ const links = [
   </div>
   <nav aria-label="Principal">
     <ol>
-      {links.map((l, i) => (
+      {navLinks.map((l, i) => (
         <li style={`--c: ${l.color}`}>
           <a href={l.href} aria-current={l.key === current ? 'page' : undefined} data-menu-link>
             <span class="idx">{String(i + 1).padStart(2, '0')}</span>
@@ -63,6 +57,10 @@ const links = [
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && menu && !menu.hidden) setOpen(false);
   });
+  // close the overlay if the window grows to the desktop layout
+  window.matchMedia('(min-width: 1024px)').addEventListener('change', (e) => {
+    if (e.matches && menu && !menu.hidden) setOpen(false);
+  });
 </script>
 
 <style>
@@ -88,15 +86,15 @@ const links = [
     font: 600 1rem "Figtree", system-ui, sans-serif; cursor: pointer; display: inline-flex; gap: 10px; align-items: center;
   }
   nav { flex: 1; display: flex; align-items: center; position: relative; z-index: 1; }
-  ol { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(2px, 1vh, 10px); }
+  ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
   li a {
-    display: inline-flex; align-items: baseline; gap: 18px; text-decoration: none; color: #FFFFFF;
-    font: 800 clamp(2.4rem, 8.5vh, 6.4rem)/1 "Bricolage Grotesque", system-ui, sans-serif; letter-spacing: -0.04em;
+    display: inline-flex; align-items: baseline; gap: 14px; min-height: 48px; text-decoration: none; color: #FFFFFF;
+    font: 800 clamp(1.7rem, 7vw, 2.6rem)/1.15 "Bricolage Grotesque", system-ui, sans-serif; letter-spacing: -0.03em;
     transition: color .2s ease, transform .3s cubic-bezier(.2,.8,.2,1);
   }
-  li a:hover, li a:focus-visible, li a[aria-current="page"] { color: var(--c); transform: translateX(14px); }
-  .idx { font: 500 .9rem "DM Mono", ui-monospace, monospace; letter-spacing: .1em; color: #8A8A8A; }
-  .menu-shapes { position: absolute; right: -6vmin; bottom: -6vmin; width: 46vmin; aspect-ratio: 1; display: grid; grid-template-columns: 1fr 1fr; pointer-events: none; }
+  li a:hover, li a:focus-visible, li a[aria-current="page"] { color: var(--c); transform: translateX(10px); }
+  .idx { font: 500 .8rem "DM Mono", ui-monospace, monospace; letter-spacing: .1em; color: #8A8A8A; }
+  .menu-shapes { position: absolute; right: -6vmin; bottom: -6vmin; width: 40vmin; aspect-ratio: 1; display: grid; grid-template-columns: 1fr 1fr; pointer-events: none; }
   .menu-shapes i { display: block; }
   .s1 { background: #FFC21A; border-radius: 100% 0 0 0; }
   .s2 { background: #2F5BFF; border-radius: 50%; }

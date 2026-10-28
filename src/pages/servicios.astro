@@ -1,0 +1,73 @@
+---
+import Layout from '../layouts/Layout.astro';
+import '../styles/home.css';
+import HomeHeader from '../components/home/HomeHeader.astro';
+import HomeFooter from '../components/home/HomeFooter.astro';
+import Mosaic, { type Tile } from '../components/home/Mosaic.astro';
+import Services from '../components/home/Services.astro';
+import Packages from '../components/home/Packages.astro';
+import Fabio from '../components/home/Fabio.astro';
+import Payments from '../components/home/Payments.astro';
+import Contact from '../components/home/Contact.astro';
+
+const tiles: Tile[] = [
+  { shape: 'half', color: '#FFC21A', rot: 180 },
+  { shape: 'circle', color: '#2F5BFF' },
+  { shape: 'quarter', color: '#FF4D2E', bg: '#0B0B0B' },
+  { shape: 'leaf', color: '#1FC99A' },
+  { shape: 'dot', color: '#0B0B0B', bg: '#FF9FCB' },
+  { shape: 'quarter', color: '#FFC21A', rot: 270 },
+];
+---
+
+<Layout
+  title="Servicios y paquetes · F&N Agency"
+  description="Paquetes mensuales de contenido para tu negocio en Cali: estrategia, grabación, edición y publicación de reels. Básico, Medio y Premium."
+  shareDescription="Paquetes de contenido mensual para tu negocio: Básico, Medio y Premium."
+>
+  <HomeHeader current="servicios" />
+  <main>
+    <section class="s-hero" data-hero>
+      <div class="wrap grid">
+        <div>
+          <span class="eyebrow" data-fade>Servicios y paquetes</span>
+          <h1 data-split>Lo que hacemos<br />por <span class="hl">tu negocio.</span></h1>
+          <p class="lede" data-fade>Nos encargamos de todo el contenido: definimos la estrategia, vamos a tu local a grabar, editamos y publicamos. Tú eliges cuántos videos quieres al mes.</p>
+          <div class="ctas" data-fade>
+            <a class="btn btn-ink" href="#paquetes">Ver paquetes</a>
+            <a class="btn btn-line" href="#pagos">Condiciones de pago</a>
+          </div>
+        </div>
+        <Mosaic tiles={tiles} cols={3} class="s-mosaic" />
+      </div>
+    </section>
+
+    <Services />
+    <Packages />
+    <Fabio ctaHref="/contacto?paquete=Video%20con%20Fabio%20Parra" ctaLabel="Quiero este video" />
+    <Payments />
+    <Contact />
+  </main>
+  <HomeFooter />
+</Layout>
+
+<script>
+  import '../scripts/home-motion.ts';
+</script>
+
+<style>
+  .s-hero { padding-top: 130px; padding-bottom: clamp(24px, 4vw, 40px); }
+  .grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, .8fr); gap: clamp(24px, 4vw, 64px); align-items: end; }
+  h1 { font-size: clamp(3rem, 8.6vw, 8.6rem); margin-top: 20px; }
+  .hl { position: relative; display: inline-block; isolation: isolate; white-space: nowrap; }
+  .hl::after { content: ""; position: absolute; left: -.04em; right: -.04em; bottom: .06em; height: .26em; background: var(--blue); opacity: .85; z-index: -1; transform-origin: left; transform: scaleX(var(--hl, 1)); }
+  .lede { font-size: clamp(1.05rem, 1.4vw, 1.25rem); color: var(--muted); max-width: 48ch; margin-top: 26px; }
+  .ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
+  .grid :global(.s-mosaic) { width: 100%; max-width: 360px; justify-self: end; }
+
+  @media (max-width: 900px) {
+    .s-hero { padding-top: 100px; }
+    .grid { grid-template-columns: 1fr; }
+    .grid :global(.s-mosaic) { max-width: 220px; justify-self: start; order: -1; }
+  }
+</style>

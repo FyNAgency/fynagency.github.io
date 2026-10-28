@@ -5,7 +5,7 @@ import tiktokStats from '../assets/tiktok-stats.jpg';
 export const contacto = {
   whatsapp: '573182966428',
   telefonoVisible: '+57 318 296 6428',
-  mensajeBase: 'Hola F&N, vi la propuesta y quiero agendar la primera grabación.',
+  mensajeBase: 'Hola F&N, vi su página y quiero agendar la primera grabación.',
 };
 
 export const whatsappUrl = (texto: string) =>
@@ -110,4 +110,13 @@ export const condiciones = [
     derecha: ['', 'luego se graba'],
     nota: 'La serie con @Fabio Parra se graba cuando el paquete Premium está pagado por completo.',
   },
+];
+
+export type Pagina = 'inicio' | 'servicios' | 'portafolio' | 'contacto';
+
+export const navLinks: { label: string; href: string; key: Pagina; color: string }[] = [
+  { label: 'Inicio', href: '/', key: 'inicio', color: '#FFC21A' },
+  { label: 'Servicios', href: '/servicios', key: 'servicios', color: '#2F5BFF' },
+  { label: 'Portafolio', href: '/portafolio', key: 'portafolio', color: '#FF4D2E' },
+  { label: 'Contacto', href: '/contacto', key: 'contacto', color: '#1FC99A' },
 ];

@@ -1,0 +1,46 @@
+---
+import { condiciones } from '../../data/agencia';
+
+const colores = ['#2F5BFF', '#FF4D2E', '#1FC99A'];
+---
+
+<section class="payments" id="pagos">
+  <div class="wrap head">
+    <span class="eyebrow" data-fade>Condiciones</span>
+    <h2 data-split>Así se paga.</h2>
+  </div>
+  <div class="wrap grid">
+    {condiciones.map((c, i) => (
+      <article class="term" style={`--c: ${colores[i]}`} data-term>
+        <h3>{c.titulo}</h3>
+        <div class="split" aria-hidden="true">
+          {c.partes.map((w) => <span style={`width:${w}%`}></span>)}
+        </div>
+        <div class="legend">
+          <span><b>{c.izquierda[0]}</b> {c.izquierda[1]}</span>
+          <span>{c.derecha[0] && <b>{c.derecha[0]}</b>} {c.derecha[1]}</span>
+        </div>
+        <p>{c.nota}</p>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .payments { padding-block: clamp(72px, 10vw, 140px); }
+  .head { display: grid; gap: 18px; margin-bottom: clamp(32px, 4vw, 56px); }
+  h2 { font-size: clamp(2.6rem, 6.4vw, 6.2rem); }
+  .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+  .term { border: 2px solid var(--ink); border-radius: 28px; padding: clamp(22px, 2.6vw, 32px); display: grid; gap: 14px; align-content: start; min-width: 0; }
+  h3 { font-size: clamp(1.5rem, 2.2vw, 2rem); letter-spacing: -0.03em; }
+  .split { display: flex; height: 16px; border-radius: 99px; overflow: hidden; background: var(--line); }
+  .split span { background: var(--ink); }
+  .split span + span { background: var(--c); }
+  .legend { display: flex; justify-content: space-between; gap: 12px; font-size: .92rem; color: var(--muted); }
+  .legend b { color: var(--ink); }
+  .term p { font-size: .95rem; color: var(--muted); }
+
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>

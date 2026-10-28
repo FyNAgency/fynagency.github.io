@@ -2,6 +2,14 @@
 import { Image } from 'astro:assets';
 import videoBurger from '../../assets/video-burger.jpg';
 import Mosaic, { type Tile } from './Mosaic.astro';
+import { videoFabio, pesos } from '../../data/agencia';
+
+interface Props {
+  ctaHref?: string;
+  ctaLabel?: string;
+}
+
+const { ctaHref = '/servicios#fabio', ctaLabel = 'Ver detalles' } = Astro.props;
 
 const tiles: Tile[] = [
   { shape: 'circle', color: '#FFC21A' },
@@ -11,17 +19,16 @@ const tiles: Tile[] = [
 ];
 ---
 
-<section class="fabio" aria-labelledby="fabio-title">
+<section class="fabio" id="fabio" aria-labelledby="fabio-title">
   <div class="wrap box" data-fabio>
     <div class="copy">
       <span class="eyebrow">Recomendación</span>
       <h2 id="fabio-title">Tu negocio,<br />recomendado por<br /><span>@Fabio Parra.</span></h2>
       <p>Aprovechamos la imagen y el público de Fabio Parra. Grabamos, editamos y te entregamos el video listo para publicar, para que más gente conozca tu marca y llegue a tu local.</p>
       <div class="prices">
-        <div><b>$300.000</b><small>1 video</small></div>
-        <div><b>$500.000</b><small>2 videos</small></div>
+        {videoFabio.map((o) => <div><b>{pesos(o.precio)}</b><small>{o.cantidad}{o.ahorro ? ` · ahorras ${pesos(o.ahorro)}` : ''}</small></div>)}
       </div>
-      <a class="btn btn-ink" href="/propuesta#fabio">Ver detalles</a>
+      <a class="btn btn-ink" href={ctaHref}>{ctaLabel}</a>
     </div>
     <div class="visual">
       <Mosaic tiles={tiles} cols={2} class="fab-mosaic" />

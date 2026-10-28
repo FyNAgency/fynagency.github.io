@@ -2,9 +2,10 @@
 import { Image } from 'astro:assets';
 import logoNegro from '../../assets/logo-negro.png';
 import SiteMenu from '../SiteMenu.astro';
+import { navLinks, type Pagina } from '../../data/agencia';
 
 interface Props {
-  current?: 'inicio' | 'portafolio' | 'propuesta' | 'contacto';
+  current?: Pagina;
 }
 
 const { current = 'inicio' } = Astro.props;
@@ -16,7 +17,17 @@ const { current = 'inicio' } = Astro.props;
       <Image src={logoNegro} alt="F&N" width={170} loading="eager" />
       <span>Agency</span>
     </a>
-    <SiteMenu current={current} />
+
+    <nav class="desk-nav" aria-label="Principal">
+      {navLinks.map((l) => (
+        <a href={l.href} style={`--c: ${l.color}`} aria-current={l.key === current ? 'page' : undefined}>{l.label}</a>
+      ))}
+    </nav>
+
+    <div class="right">
+      <a class="cta" href="/contacto">Hablemos</a>
+      <div class="burger"><SiteMenu current={current} /></div>
+    </div>
   </div>
 </header>
 
@@ -24,15 +35,41 @@ const { current = 'inicio' } = Astro.props;
   .site-header {
     position: fixed; top: 0; left: 0; right: 0; z-index: 50;
     padding-top: env(safe-area-inset-top, 0px);
-    transition: transform .4s cubic-bezier(.2,.8,.2,1), background-color .3s ease, box-shadow .3s ease;
+    transition: background-color .3s ease, box-shadow .3s ease;
   }
-  .site-header:global(.is-scrolled) { background: rgba(255, 255, 255, .88); backdrop-filter: blur(10px); box-shadow: 0 1px 0 var(--line); }
-  .site-header:global(.is-hidden) { transform: translateY(-110%); }
-  .bar { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 14px; }
-  .brand { display: flex; align-items: flex-end; gap: 10px; text-decoration: none; }
+  .site-header:global(.is-scrolled) { background: rgba(255, 255, 255, .9); backdrop-filter: blur(10px); box-shadow: 0 1px 0 var(--line); }
+  /* backdrop-filter would trap the fixed full-screen menu inside the header */
+  :global(html.menu-open) .site-header { backdrop-filter: none; }
+  .bar { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px; padding-block: 14px; }
+  .brand { display: flex; align-items: flex-end; gap: 10px; text-decoration: none; justify-self: start; }
   .brand :global(img) { height: 34px; width: auto; }
   .brand span { font: 500 .72rem var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+
+  .desk-nav { display: flex; gap: clamp(18px, 2.6vw, 40px); }
+  .desk-nav a {
+    position: relative; text-decoration: none; font-weight: 600; font-size: 1rem; padding-block: 10px;
+  }
+  .desk-nav a::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 4px; height: 3px; border-radius: 3px; background: var(--c);
+    transform: scaleX(0); transform-origin: left; transition: transform .3s cubic-bezier(.2,.8,.2,1);
+  }
+  .desk-nav a:hover::after, .desk-nav a[aria-current="page"]::after { transform: scaleX(1); }
+
+  .right { justify-self: end; display: flex; align-items: center; gap: 8px; }
+  .cta {
+    display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border-radius: 999px;
+    background: var(--ink); color: #FFFFFF; text-decoration: none; font-weight: 700; transition: background-color .2s ease;
+  }
+  .cta:hover { background: var(--blue); }
+  .burger { display: none; }
+
+  @media (max-width: 1023px) {
+    .bar { grid-template-columns: 1fr auto; }
+    .desk-nav { display: none; }
+    .burger { display: block; }
+    .cta { display: none; }
+  }
   @media (prefers-reduced-motion: reduce) {
-    .site-header { transition: none; }
+    .site-header, .desk-nav a::after, .cta { transition: none; }
   }
 </style>
