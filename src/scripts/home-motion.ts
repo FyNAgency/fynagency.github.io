@@ -213,7 +213,7 @@ if (!reduced) {
   /* ---------- contact orbit ---------- */
   if (has('[data-contact]')) gsap.to('[data-contact] .orbit', { rotate: 180, ease: 'none', scrollTrigger: { trigger: '[data-contact]', start: 'top bottom', end: 'bottom top', scrub: 1 } });
 
-  /* ---------- results reel: pinned, cards slide in one by one from the right ---------- */
+  /* ---------- results reel: pinned; the first card is already there, the rest slide in from the right ---------- */
   const mm = gsap.matchMedia();
   mm.add({ wide: '(min-width: 901px)', narrow: '(max-width: 900px)' }, (ctx) => {
     const pin = document.querySelector<HTMLElement>('[data-reel-pin]');
@@ -221,26 +221,33 @@ if (!reduced) {
     const view = document.querySelector<HTMLElement>('[data-reel-viewport]');
     if (!pin || !track || !view) return;
     const { wide } = ctx.conditions as { wide: boolean };
-    // start with every card just off the right edge, end once the last one is fully in view
-    const enter = () => view.clientWidth;
-    const exit = () => Math.max(0, track.scrollWidth - view.clientWidth);
-    const travel = () => enter() + exit();
-    const move = gsap.fromTo(track, { x: () => enter() }, {
-      x: () => -exit(),
-      ease: 'none',
-      scrollTrigger: {
-        trigger: pin,
-        start: wide ? 'center center' : 'top top',
-        end: () => '+=' + travel() * (wide ? 1 : 1.3),
-        pin: true,
-        scrub: 1,
-        invalidateOnRefresh: true,
-      },
+    const start = wide ? 'center center' : 'top top';
+    // how far the track moves so the last card ends fully inside the window
+    const travel = () => Math.max(0, track.scrollWidth - view.clientWidth);
+    const scrollFor = () => travel() * (wide ? 1 : 1.4);
+    // after the last card arrives, keep the section fixed a little longer so it can be seen
+    const hold = () => window.innerHeight * 0.45;
+
+    ScrollTrigger.create({
+      trigger: pin,
+      start,
+      end: () => '+=' + (scrollFor() + hold()),
+      pin: true,
+      invalidateOnRefresh: true,
     });
-    track.querySelectorAll<HTMLElement>('.card').forEach((card) => {
-      gsap.from(card, { rotate: 10, y: 70, scale: 0.85, ease: 'none', scrollTrigger: { trigger: card, containerAnimation: move, start: 'left right', end: 'left 55%', scrub: true } });
+    const move = gsap.to(track, {
+      x: () => -travel(),
+      ease: 'none',
+      scrollTrigger: { trigger: pin, start, end: () => '+=' + scrollFor(), scrub: 1, invalidateOnRefresh: true },
+    });
+    track.querySelectorAll<HTMLElement>('.card').forEach((card, i) => {
       const n = card.querySelector<HTMLElement>('[data-count]');
-      if (n) countUp(n, { trigger: card, containerAnimation: move, start: 'left 75%' });
+      if (i === 0) {
+        if (n) countUp(n, { trigger: pin, start: 'top 70%' });
+        return;
+      }
+      gsap.from(card, { rotate: 10, y: 70, scale: 0.85, ease: 'none', scrollTrigger: { trigger: card, containerAnimation: move, start: 'left right', end: 'left 60%', scrub: true } });
+      if (n) countUp(n, { trigger: card, containerAnimation: move, start: 'left 80%' });
     });
   });
 
