@@ -1,0 +1,45 @@
+---
+import { Image } from 'astro:assets';
+import videoSopa from '../assets/video-sopa.jpg';
+import { videoFabio, pesos } from '../data/propuesta';
+---
+
+<section class="block" id="fabio">
+  <div class="wrap extra">
+    <div class="phone"><Image src={videoSopa} alt="Fabio Parra recomendando un restaurante" width={535} /></div>
+    <div>
+      <span class="eyebrow">Otros servicios</span>
+      <h2>Video recomendación de Fabio Parra.</h2>
+      <p class="lead">Aprovechamos la imagen y el público de <strong>@Fabio Parra</strong>. Hacemos una visita programada en el mes, grabamos, editamos y te entregamos el video listo para publicar, para impulsar tu marca y atraer más tráfico a tu negocio.</p>
+      <div class="options">
+        {videoFabio.map((o) => (
+          <div class="option">
+            <div class="q">{o.cantidad}</div>
+            <div class="price num">{pesos(o.precio)}</div>
+            {o.ahorro ? <span class="save">Ahorras {pesos(o.ahorro)}</span> : <p class="muted">COP</p>}
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .extra { display: grid; grid-template-columns: 300px 1fr; gap: 48px; align-items: center; }
+  .extra .phone { width: 100%; max-width: 300px; transform: rotate(-3deg); }
+  h2 { font-size: clamp(2rem, 4.4vw, 3.3rem); font-weight: 800; margin-top: 14px; }
+  .lead { color: var(--muted); margin-top: 18px; max-width: 52ch; }
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 30px; max-width: 560px; }
+  .option { border: 1.5px solid var(--ink); border-radius: 16px; padding: 20px; min-width: 0; }
+  .q { font-family: var(--font-mono); font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .option .price { font-size: 2rem; margin-top: 8px; }
+  .save { display: inline-block; margin-top: 10px; font-size: .85rem; background: var(--aji); color: var(--on-aji); padding: 2px 10px; border-radius: 999px; font-weight: 600; }
+
+  @media (max-width: 900px) {
+    .extra { grid-template-columns: 1fr; }
+    .extra .phone { max-width: 220px; }
+  }
+  @media (max-width: 560px) {
+    .options { grid-template-columns: 1fr; }
+  }
+</style>

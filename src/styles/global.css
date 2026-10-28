@@ -1,0 +1,99 @@
+/* Layout: editorial columns that alternate text with 9:16 phone frames, like a reel feed; one inverted (premium) block carries the boldness */
+:root {
+  --paper: #F2F5EF;
+  --surface: #FFFFFF;
+  --ink: #10261D;
+  --muted: #4C5F55;
+  --line: #D3DCD1;
+  --aji: #FFC21A;
+  --on-aji: #10261D;
+  --rec: #D3322A;
+  --font-display: "Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "DM Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --radius-phone: 22px;
+  --wrap: none;
+  --gutter: clamp(16px, 2vw, 28px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0C1812; --surface: #132219; --ink: #EAF1E8; --muted: #A2B3A9; --line: #263A2F; --rec: #FF5D50;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0C1812; --surface: #132219; --ink: #EAF1E8; --muted: #A2B3A9; --line: #263A2F; --rec: #FF5D50;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+body {
+  background: var(--paper); color: var(--ink);
+  font-family: var(--font-body); font-size: 17px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap {
+  max-width: var(--wrap); margin: 0 auto;
+  padding-left: max(var(--gutter), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
+}
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.02; margin: 0; text-wrap: balance; letter-spacing: -0.02em; }
+p { margin: 0; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--aji); outline-offset: 3px; border-radius: 4px; }
+.eyebrow {
+  font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); display: inline-flex; align-items: center; gap: 10px;
+}
+.rec-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--rec); display: inline-block; animation: blink 1.6s steps(2, start) infinite; }
+@keyframes blink { to { visibility: hidden; } }
+.num { font-variant-numeric: tabular-nums; }
+.muted { color: var(--muted); }
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 22px;
+  border-radius: 999px; font-weight: 700; text-decoration: none; font-size: 1rem;
+  transition: transform .18s ease, background-color .18s ease;
+}
+.btn-aji { background: var(--aji); color: var(--on-aji); }
+.btn-ghost { border: 1.5px solid var(--ink); color: var(--ink); }
+.btn:hover { transform: translateY(-2px); }
+.btn svg { width: 18px; height: 18px; }
+
+/* ---------- phone frame (hero + Fabio Parra) ---------- */
+.phone {
+  position: relative; aspect-ratio: 9 / 16; width: 46%; max-width: 250px; border-radius: var(--radius-phone);
+  overflow: hidden; background: var(--ink); border: 6px solid var(--ink);
+  box-shadow: 0 30px 60px -30px rgba(16, 38, 29, .55);
+}
+.phone img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* ---------- sections ---------- */
+section.block { border-top: 1px solid var(--line); }
+section.block > .wrap { padding-block: 84px; }
+.sec-head { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: end; margin-bottom: 48px; }
+.sec-head h2 { font-size: clamp(2rem, 4.4vw, 3.3rem); font-weight: 800; margin-top: 14px; }
+.sec-head p { color: var(--muted); max-width: 46ch; }
+.price { font-family: var(--font-display); font-weight: 800; font-size: 2.3rem; letter-spacing: -0.03em; line-height: 1; }
+.price small { font-family: var(--font-body); font-size: .9rem; font-weight: 500; letter-spacing: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rec-dot { animation: none; }
+  .btn { transition: none; }
+}
+@media (max-width: 900px) {
+  .sec-head { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  body { font-size: 16px; }
+  section.block > .wrap { padding-block: 60px; }
+}
+@media print {
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .rec-dot { animation: none !important; }
+  .btn:hover { transform: none; }
+}

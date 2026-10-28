@@ -1,0 +1,15 @@
+---
+import Logo from './Logo.astro';
+---
+
+<header class="topbar">
+  <div class="wrap">
+    <Logo label="agency" alt="F&N" />
+    <span class="eyebrow">Propuesta comercial · Estrategia creativa</span>
+  </div>
+</header>
+
+<style>
+  .topbar { border-bottom: 1px solid var(--line); }
+  .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 18px; flex-wrap: wrap; }
+</style>

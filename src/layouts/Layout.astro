@@ -1,0 +1,54 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  shareDescription: string;
+}
+
+const { title, description, shareDescription } = Astro.props;
+const site = Astro.site ?? new URL('https://fynagency.co');
+const pageUrl = new URL(Astro.url.pathname, site).href;
+const shareImage = new URL('/img/og-logo.jpg', site).href;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/img/icon-512.png" />
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+    <link rel="canonical" href={pageUrl} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:site_name" content="F&N Agency" />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={shareDescription} />
+    <meta property="og:image" content={shareImage} />
+    <meta property="og:image:secure_url" content={shareImage} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="1200" />
+    <meta property="og:image:alt" content="Logo de F&N Agency" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:image" content={shareImage} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+    />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,91 @@
+---
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import { contacto, whatsappUrl } from '../data/propuesta';
+---
+
+<section class="closing" id="cierre">
+  <div class="wrap">
+    <div>
+      <div class="closing-logo"><Logo height={64} variant="negro" /></div>
+      <span class="eyebrow"><span class="rec-dot" aria-hidden="true"></span> Siguiente paso</span>
+      <h2>Agendemos la primera grabación.</h2>
+    </div>
+    <div>
+      <p>Cuéntanos qué paquete elegiste. Con el primer pago armamos la estrategia y programamos la primera visita a tu local.</p>
+      <p class="pick-msg" id="pick-msg" aria-live="polite" hidden></p>
+      <div class="contact">
+        <a class="btn btn-wa" id="wa-link" href={whatsappUrl(contacto.mensajeBase)} target="_blank" rel="noopener">
+          <Icon name="whatsapp" />
+          Escríbenos por WhatsApp
+        </a>
+        <div class="phone-num">
+          <span class="num" id="wa-num">{contacto.telefonoVisible}</span>
+          <button type="button" class="copy" id="copy-num">Copiar número</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script define:vars={{ whatsapp: contacto.whatsapp }}>
+  const waLink = document.getElementById('wa-link');
+  const pickMsg = document.getElementById('pick-msg');
+
+  document.querySelectorAll('[data-plan]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-plan]').forEach((b) => b.classList.remove('is-picked'));
+      btn.classList.add('is-picked');
+      pickMsg.textContent = `Elegiste el paquete ${btn.dataset.plan}.`;
+      pickMsg.hidden = false;
+      const text = `Hola F&N, vi la propuesta y me interesa el paquete ${btn.dataset.plan}. Quiero agendar la primera grabación.`;
+      waLink.href = `https://wa.me/${whatsapp}?text=${encodeURIComponent(text)}`;
+    });
+  });
+
+  const copyBtn = document.getElementById('copy-num');
+  copyBtn.addEventListener('click', () => {
+    const done = () => {
+      copyBtn.textContent = 'Copiado';
+      setTimeout(() => { copyBtn.textContent = 'Copiar número'; }, 2000);
+    };
+    const fallback = () => {
+      const range = document.createRange();
+      range.selectNodeContents(document.getElementById('wa-num'));
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      copyBtn.textContent = 'Seleccionado';
+    };
+    try {
+      navigator.clipboard.writeText('+' + whatsapp).then(done, fallback);
+    } catch (e) {
+      fallback();
+    }
+  });
+</script>
+
+<style>
+  .closing { background: var(--aji); color: var(--on-aji); }
+  .wrap { padding-block: 84px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; align-items: end; }
+  .closing-logo { margin-bottom: 28px; }
+  h2 { font-size: clamp(2.3rem, 5.6vw, 4.4rem); font-weight: 800; }
+  p { font-size: 1.1rem; max-width: 40ch; }
+  .eyebrow { color: var(--on-aji); }
+  .rec-dot { background: var(--on-aji); }
+  .pick-msg { margin-top: 16px; font-weight: 700; }
+  .contact { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; margin-top: 26px; }
+  .btn-wa { background: var(--on-aji); color: var(--aji); min-height: 54px; font-size: 1.05rem; }
+  .btn-wa :global(svg) { width: 22px; height: 22px; }
+  .phone-num { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-family: var(--font-mono); font-size: 1rem; }
+  .phone-num .num { user-select: all; }
+  .copy {
+    font: 500 .8rem var(--font-mono); letter-spacing: .06em; text-transform: uppercase; cursor: pointer;
+    background: transparent; color: var(--on-aji); border: 1.5px solid var(--on-aji); border-radius: 999px; min-height: 36px; padding: 0 14px;
+  }
+  .copy:hover { background: color-mix(in srgb, var(--on-aji) 10%, transparent); }
+
+  @media (max-width: 900px) {
+    .wrap { grid-template-columns: 1fr; }
+  }
+</style>
