@@ -18,6 +18,7 @@
 
 * { box-sizing: border-box; }
 html, body { margin: 0; }
+html { overflow-x: clip; }
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 img { max-width: 100%; display: block; }

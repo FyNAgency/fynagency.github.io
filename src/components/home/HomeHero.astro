@@ -66,13 +66,10 @@ const right: Tile[] = [
     </div>
   </div>
 
-  <a class="scroll-cue" href="#marquee" aria-label="Descubre más">
-    <span>Descubre más</span><i aria-hidden="true"></i>
-  </a>
 </section>
 
 <style>
-  .hero { position: relative; padding-top: 110px; padding-bottom: 72px; }
+  .hero { position: relative; padding-top: 110px; padding-bottom: 72px; overflow-x: clip; }
   .grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 64px); align-items: center; }
   .copy { min-width: 0; position: relative; z-index: 2; }
   h1 { font-size: clamp(3.2rem, 9.2vw, 9.4rem); margin-top: 22px; }
@@ -108,25 +105,10 @@ const right: Tile[] = [
   .phone-back figcaption { font-size: .68rem; padding: 5px 10px; left: 8px; right: 8px; bottom: 8px; }
   .phone .dot, .phone-back .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); flex: none; }
 
-  .scroll-cue {
-    position: absolute; left: max(var(--gutter), env(safe-area-inset-left, 0px)); bottom: 8px;
-    display: flex; flex-direction: column; align-items: center; gap: 10px; text-decoration: none;
-    font: 500 .72rem var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--muted);
-  }
-  .scroll-cue span { writing-mode: vertical-rl; transform: rotate(180deg); }
-  .scroll-cue i { width: 2px; height: 46px; background: var(--ink); transform-origin: top; animation: cue 1.8s ease-in-out infinite; }
-  @keyframes cue { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
 
-  @media (max-width: 1280px) {
-    .scroll-cue { display: none; }
-  }
   @media (max-width: 900px) {
     .hero { padding-top: 92px; }
     .grid { grid-template-columns: 1fr; }
     .art { order: -1; max-width: 520px; justify-self: center; }
-    .scroll-cue { display: none; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .scroll-cue i { animation: none; }
   }
 </style>

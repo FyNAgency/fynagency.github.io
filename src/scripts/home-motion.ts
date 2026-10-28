@@ -78,18 +78,19 @@ if (!reduced) {
       .from('[data-hero] [data-fade]', { y: 24, opacity: 0, duration: 0.8, stagger: 0.1 }, 0.35)
       .from('[data-hero] [data-tile]', { scale: 0, rotate: -90, duration: 0.7, stagger: { each: 0.05, from: 'random' }, ease: 'back.out(1.7)' }, 0.2);
     if (has('[data-hero] .disc')) tl.from('[data-hero] .disc', { scale: 0.4, opacity: 0, duration: 1 }, 0.3);
-    if (has('[data-hero] .phone')) tl.from('[data-hero] .phone', { y: 120, rotate: 20, opacity: 0, duration: 1.1 }, 0.45);
+    if (has('[data-hero] .phone')) tl.from('[data-hero] .phone', { y: 120, rotate: 20, opacity: 0, duration: 0.9 }, 0.25);
 
     // the other two reels slide out from behind the main phone, one after the other
     const backLeft = document.querySelector('[data-slot="left"] .phone-back');
     const backRight = document.querySelector('[data-slot="right"] .phone-back');
     if (backLeft && backRight) {
-      tl.from(backLeft, { xPercent: 85, rotate: 4, scale: 0.8, opacity: 0, duration: 1.1, ease: 'back.out(1.4)' }, 1.05)
-        .from(backRight, { xPercent: -85, rotate: 4, scale: 0.8, opacity: 0, duration: 1.1, ease: 'back.out(1.4)' }, 1.3);
+      // each one starts as soon as the previous lands, with no pause in between
+      tl.from(backLeft, { xPercent: 85, rotate: 4, scale: 0.8, opacity: 0, duration: 0.7, ease: 'back.out(1.4)' }, '>-0.25')
+        .from(backRight, { xPercent: -85, rotate: 4, scale: 0.8, opacity: 0, duration: 0.7, ease: 'back.out(1.4)' }, '>-0.35');
 
       // gentle floating, each phone on its own rhythm
       [['main', 2.6, -12], ['left', 3.1, 14], ['right', 2.8, -16]].forEach(([slot, dur, y], i) => {
-        gsap.to(`[data-slot="${slot}"]`, { y, duration: dur as number, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.6 + i * 0.3 });
+        gsap.to(`[data-slot="${slot}"]`, { y, duration: dur as number, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.4 + i * 0.2 });
       });
 
       // fan out further while the hero scrolls away
@@ -208,10 +209,20 @@ if (!reduced) {
 
   /* ---------- Fabio block ---------- */
   if (has('[data-fabio]')) gsap.from('[data-fabio]', { clipPath: 'inset(12% 8% 12% 8% round 40px)', ease: 'none', scrollTrigger: { trigger: '[data-fabio]', start: 'top bottom', end: 'top 35%', scrub: 1 } });
+  if (has('[data-fabio] .phone')) {
+    // the video pops up big from below, then the stats stickers land around it
+    gsap.timeline({ scrollTrigger: { trigger: '[data-fabio]', start: 'top 70%' } })
+      .from('[data-fabio] .phone', { y: 260, rotate: -28, scale: 0.55, opacity: 0, duration: 1.2, ease: 'back.out(1.5)' })
+      .from('[data-fabio] .sticker', { scale: 0, rotate: 30, duration: 0.6, ease: 'back.out(2)', stagger: 0.15 }, '-=0.45');
+    gsap.to('[data-fabio] .phone', { rotate: 4, ease: 'none', scrollTrigger: { trigger: '[data-fabio]', start: 'top 40%', end: 'bottom top', scrub: 1 } });
+  }
   if (has('[data-fabio]')) gsap.from('[data-fabio] [data-tile]', { scale: 0, rotate: 90, stagger: 0.1, ease: 'none', scrollTrigger: { trigger: '[data-fabio]', start: 'top 80%', end: 'top 30%', scrub: 1 } });
 
   /* ---------- contact orbit ---------- */
-  if (has('[data-contact]')) gsap.to('[data-contact] .orbit', { rotate: 180, ease: 'none', scrollTrigger: { trigger: '[data-contact]', start: 'top bottom', end: 'bottom top', scrub: 1 } });
+  if (has('[data-contact] .camera')) {
+    gsap.from('[data-contact] .camera', { x: 220, rotate: 14, scale: 0.75, opacity: 0, duration: 1.2, ease: 'back.out(1.4)', scrollTrigger: { trigger: '[data-contact]', start: 'top 70%' } });
+    gsap.to('[data-contact] .camera', { y: -40, ease: 'none', scrollTrigger: { trigger: '[data-contact]', start: 'top bottom', end: 'bottom top', scrub: 1 } });
+  }
 
   /* ---------- results reel: pinned; the first card is already there, the rest slide in from the right ---------- */
   const mm = gsap.matchMedia();
@@ -240,9 +251,20 @@ if (!reduced) {
       ease: 'none',
       scrollTrigger: { trigger: pin, start, end: () => '+=' + scrollFor(), scrub: 1, invalidateOnRefresh: true },
     });
-    track.querySelectorAll<HTMLElement>('.card').forEach((card, i) => {
+    const cards = gsap.utils.toArray<HTMLElement>(track.querySelectorAll('.card'));
+    // cards already inside the window when the section arrives (desktop: several, phone: just the first)
+    const firstVisible = wide ? cards.filter((c) => c.offsetLeft < view.clientWidth) : cards.slice(0, 1);
+    if (wide) {
+      // they fly in from below-right and settle into place as the section reaches the screen
+      gsap.from(firstVisible, {
+        x: 260, y: 220, rotate: 18, scale: 0.7, opacity: 0,
+        duration: 1.1, ease: 'back.out(1.3)', stagger: 0.14,
+        scrollTrigger: { trigger: pin, start: 'top 80%' },
+      });
+    }
+    cards.forEach((card) => {
       const n = card.querySelector<HTMLElement>('[data-count]');
-      if (i === 0) {
+      if (firstVisible.includes(card)) {
         if (n) countUp(n, { trigger: pin, start: 'top 70%' });
         return;
       }

@@ -3,10 +3,8 @@ import { contacto, whatsappUrl } from '../../data/agencia';
 ---
 
 <section class="contact" id="contacto" data-contact>
-  <div class="orbit" aria-hidden="true">
-    <i class="o1"></i><i class="o2"></i><i class="o3"></i><i class="o4"></i>
-  </div>
-  <div class="wrap inner">
+  <div class="wrap layout">
+  <div class="inner">
     <span class="eyebrow">Contacto</span>
     <h2 data-split>¿Grabamos<br />tu negocio?</h2>
     <p>Escríbenos por WhatsApp. Te contamos cómo funciona y agendamos la primera visita a tu local.</p>
@@ -19,13 +17,43 @@ import { contacto, whatsappUrl } from '../../data/agencia';
     </div>
     <p class="phone-line">{contacto.telefonoVisible}</p>
   </div>
+    <figure class="camera" aria-label="Ilustración de una cámara de video grabando">
+      <svg viewBox="0 0 560 470" role="img" aria-hidden="true">
+        <!-- film reels -->
+        <g class="reel r1"><circle cx="170" cy="120" r="88" fill="#2F5BFF" /><circle cx="170" cy="72" r="16" fill="#0B0B0B" /><circle cx="216" cy="134" r="16" fill="#0B0B0B" /><circle cx="124" cy="134" r="16" fill="#0B0B0B" /><circle cx="198" cy="172" r="14" fill="#0B0B0B" /><circle cx="142" cy="172" r="14" fill="#0B0B0B" /><circle cx="170" cy="120" r="10" fill="#FFC21A" /></g>
+        <g class="reel r2"><circle cx="350" cy="120" r="88" fill="#FF4D2E" /><circle cx="350" cy="72" r="16" fill="#0B0B0B" /><circle cx="396" cy="134" r="16" fill="#0B0B0B" /><circle cx="304" cy="134" r="16" fill="#0B0B0B" /><circle cx="378" cy="172" r="14" fill="#0B0B0B" /><circle cx="322" cy="172" r="14" fill="#0B0B0B" /><circle cx="350" cy="120" r="10" fill="#FFC21A" /></g>
+        <!-- body -->
+        <rect x="70" y="200" width="360" height="180" rx="30" fill="#FFC21A" />
+        <rect x="70" y="200" width="70" height="180" rx="30" fill="#FF9FCB" />
+        <rect x="110" y="200" width="30" height="180" fill="#FF9FCB" />
+        <!-- lens -->
+        <polygon points="430,250 530,205 530,375 430,330" fill="#1FC99A" />
+        <rect x="420" y="240" width="26" height="100" rx="8" fill="#0B0B0B" />
+        <!-- screen with a mini reel playing -->
+        <rect x="170" y="236" width="200" height="110" rx="14" fill="#0B0B0B" />
+        <g class="bars">
+          <rect class="b b1" x="192" y="296" width="18" height="30" rx="4" fill="#FFC21A" />
+          <rect class="b b2" x="220" y="276" width="18" height="50" rx="4" fill="#2F5BFF" />
+          <rect class="b b3" x="248" y="286" width="18" height="40" rx="4" fill="#FF4D2E" />
+          <rect class="b b4" x="276" y="266" width="18" height="60" rx="4" fill="#1FC99A" />
+          <rect class="b b5" x="304" y="290" width="18" height="36" rx="4" fill="#FF9FCB" />
+          <rect class="b b6" x="332" y="280" width="18" height="46" rx="4" fill="#FFFFFF" />
+        </g>
+        <!-- REC indicator -->
+        <circle class="rec" cx="196" cy="256" r="7" fill="#FF4D2E" />
+        <text x="210" y="261" fill="#FFFFFF" font-family="DM Mono, monospace" font-size="15" letter-spacing="2">REC 00:42</text>
+        <!-- tripod -->
+        <path d="M250 380 L180 460 M250 380 L320 460 M250 380 L250 462" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" opacity=".85" />
+      </svg>
+    </figure>
+  </div>
 </section>
 
 <style>
   .contact { position: relative; background: var(--ink); color: #FFFFFF; overflow: hidden; padding-block: clamp(90px, 14vw, 200px); }
-  .inner { position: relative; z-index: 1; display: grid; gap: 26px; justify-items: start; }
+  .inner { position: relative; z-index: 1; display: grid; gap: 26px; justify-items: start; min-width: 0; }
   .eyebrow { color: #BDBDBD; }
-  h2 { font-size: clamp(3.2rem, 11vw, 11rem); }
+  h2 { font-size: clamp(3.2rem, 8.4vw, 9rem); }
   .inner > p { font-size: clamp(1.05rem, 1.5vw, 1.3rem); max-width: 44ch; color: #D8D8D8; }
   .ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
   .btn-wa { background: var(--yellow); color: var(--ink); border-color: var(--yellow); }
@@ -33,14 +61,24 @@ import { contacto, whatsappUrl } from '../../data/agencia';
   .btn-ghost-light { background: transparent; color: #FFFFFF; border-color: #FFFFFF; }
   .btn-ghost-light:hover { background: #FFFFFF; color: var(--ink); }
   .phone-line { font: 500 1rem var(--font-mono); letter-spacing: .08em; color: #BDBDBD; user-select: all; }
-  .orbit { position: absolute; right: -10vmin; top: 50%; width: 70vmin; aspect-ratio: 1; translate: 0 -50%; display: grid; grid-template-columns: 1fr 1fr; opacity: .95; }
-  .orbit i { display: block; }
-  .o1 { background: var(--yellow); border-radius: 100% 0 0 0; }
-  .o2 { background: var(--blue); border-radius: 50%; }
-  .o3 { background: var(--red); border-radius: 0 100% 0 100%; }
-  .o4 { background: var(--mint); border-radius: 0 0 100% 0; }
+  .layout { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: clamp(24px, 4vw, 64px); align-items: center; }
+  .camera { margin: 0; min-width: 0; }
+  .camera svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .reel { transform-box: fill-box; transform-origin: center; animation: spin 4s linear infinite; }
+  .r2 { animation-duration: 3.2s; }
+  .rec { animation: blink 1.2s steps(2, start) infinite; }
+  .b { transform-box: fill-box; transform-origin: bottom; animation: eq 1.1s ease-in-out infinite alternate; }
+  .b2 { animation-delay: -.3s; } .b3 { animation-delay: -.6s; } .b4 { animation-delay: -.15s; } .b5 { animation-delay: -.45s; } .b6 { animation-delay: -.75s; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes blink { to { visibility: hidden; } }
+  @keyframes eq { from { transform: scaleY(.35); } to { transform: scaleY(1); } }
 
   @media (max-width: 900px) {
-    .orbit { width: 60vmin; top: auto; bottom: -14vmin; translate: none; right: -14vmin; opacity: .5; }
+    h2 { font-size: clamp(3rem, 13vw, 5rem); }
+    .layout { grid-template-columns: 1fr; }
+    .camera { order: -1; width: min(78%, 360px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reel, .rec, .b { animation: none; }
   }
 </style>

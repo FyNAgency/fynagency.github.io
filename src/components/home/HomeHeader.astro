@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import logoNegro from '../../assets/logo-negro.png';
 import SiteMenu from '../SiteMenu.astro';
-import { navLinks, type Pagina } from '../../data/agencia';
+import { navLinks, contacto, whatsappUrl, type Pagina } from '../../data/agencia';
 
 interface Props {
   current?: Pagina;
@@ -25,7 +25,7 @@ const { current = 'inicio' } = Astro.props;
     </nav>
 
     <div class="right">
-      <a class="cta" href="/contacto">Hablemos</a>
+      <a class="cta" href={whatsappUrl(contacto.mensajeBase)} target="_blank" rel="noopener">Hablemos</a>
       <div class="burger"><SiteMenu current={current} /></div>
     </div>
   </div>
