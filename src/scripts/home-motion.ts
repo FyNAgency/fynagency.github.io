@@ -81,6 +81,24 @@ if (!reduced) {
       .from('[data-hero] .disc', { scale: 0.4, opacity: 0, duration: 1 }, 0.3)
       .from('[data-hero] .phone', { y: 120, rotate: 20, opacity: 0, duration: 1.1 }, 0.45);
 
+    // the other two reels slide out from behind the main phone, one after the other
+    const backLeft = document.querySelector('[data-slot="left"] .phone-back');
+    const backRight = document.querySelector('[data-slot="right"] .phone-back');
+    if (backLeft && backRight) {
+      tl.from(backLeft, { xPercent: 85, rotate: 4, scale: 0.8, opacity: 0, duration: 1.1, ease: 'back.out(1.4)' }, 1.05)
+        .from(backRight, { xPercent: -85, rotate: 4, scale: 0.8, opacity: 0, duration: 1.1, ease: 'back.out(1.4)' }, 1.3);
+
+      // gentle floating, each phone on its own rhythm
+      [['main', 2.6, -12], ['left', 3.1, 14], ['right', 2.8, -16]].forEach(([slot, dur, y], i) => {
+        gsap.to(`[data-slot="${slot}"]`, { y, duration: dur as number, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.6 + i * 0.3 });
+      });
+
+      // fan out further while the hero scrolls away
+      const spread = { trigger: '[data-hero]', start: 'top top', end: 'bottom top', scrub: 1 };
+      gsap.to('[data-slot="left"]', { x: -70, rotation: -8, ease: 'none', scrollTrigger: spread });
+      gsap.to('[data-slot="right"]', { x: 70, rotation: 8, ease: 'none', scrollTrigger: spread });
+    }
+
     // tiles keep turning while the hero scrolls away
     gsap.to('[data-hero] [data-tile]', {
       rotate: '+=90',
