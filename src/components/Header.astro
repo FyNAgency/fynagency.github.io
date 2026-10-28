@@ -1,15 +1,24 @@
 ---
 import Logo from './Logo.astro';
+import SiteMenu from './SiteMenu.astro';
 ---
 
 <header class="topbar">
   <div class="wrap">
-    <Logo label="agency" alt="F&N" />
-    <span class="eyebrow">Propuesta comercial · Estrategia creativa</span>
+    <a class="home" href="/" aria-label="F&N Agency, ir al inicio"><Logo label="agency" alt="F&N" /></a>
+    <div class="right">
+      <span class="eyebrow">Propuesta comercial · Estrategia creativa</span>
+      <SiteMenu current="propuesta" />
+    </div>
   </div>
 </header>
 
 <style>
   .topbar { border-bottom: 1px solid var(--line); }
-  .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 18px; flex-wrap: wrap; }
+  .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 12px; flex-wrap: wrap; }
+  .home { text-decoration: none; }
+  .right { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  @media (max-width: 700px) {
+    .eyebrow { display: none; }
+  }
 </style>

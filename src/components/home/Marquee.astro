@@ -1,0 +1,42 @@
+---
+const words = ['Estrategia', 'Grabación', 'Edición', 'Publicación', 'Reels', 'TikTok', 'Instagram'];
+const words2 = ['Restaurantes', 'Cafés', 'Hamburgueserías', 'Tiendas', 'Marcas locales', 'Cali'];
+---
+
+<section class="marquees" id="marquee" aria-label="Lo que hacemos">
+  <div class="band band-yellow" data-marquee="-1">
+    <div class="track">
+      {[0, 1].map(() => (
+        <div class="row" aria-hidden="true">
+          {words.map((w) => <span>{w}<i class="star">✦</i></span>)}
+        </div>
+      ))}
+    </div>
+  </div>
+  <div class="band band-blue" data-marquee="1">
+    <div class="track">
+      {[0, 1].map(() => (
+        <div class="row" aria-hidden="true">
+          {words2.map((w) => <span>{w}<i class="circ"></i></span>)}
+        </div>
+      ))}
+    </div>
+  </div>
+  <p class="sr-only">Estrategia, grabación, edición y publicación de reels para restaurantes, cafés y marcas locales en Cali.</p>
+</section>
+
+<style>
+  .marquees { position: relative; padding-block: 56px; overflow: hidden; }
+  .band { overflow: hidden; padding-block: 18px; }
+  .band-yellow { background: var(--yellow); color: var(--ink); transform: rotate(-2.4deg); position: relative; z-index: 2; }
+  .band-blue { background: var(--blue); color: #FFFFFF; transform: rotate(1.6deg); margin-top: -10px; }
+  .track { display: flex; width: max-content; }
+  .row { display: flex; flex: none; }
+  span {
+    display: inline-flex; align-items: center; gap: 28px; padding-right: 28px; white-space: nowrap;
+    font: 800 clamp(1.8rem, 4.6vw, 3.6rem)/1 var(--font-display); letter-spacing: -0.03em; text-transform: uppercase;
+  }
+  .star { font-style: normal; font-size: .7em; color: var(--red); }
+  .circ { width: .5em; height: .5em; border-radius: 50%; background: var(--yellow); display: inline-block; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>

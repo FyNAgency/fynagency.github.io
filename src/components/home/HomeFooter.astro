@@ -1,0 +1,31 @@
+---
+import { Image } from 'astro:assets';
+import logoBlanco from '../../assets/logo-blanco.png';
+---
+
+<footer class="footer">
+  <div class="wrap row">
+    <a class="brand" href="/" aria-label="F&N Agency, inicio">
+      <Image src={logoBlanco} alt="F&N" width={130} />
+      <span>Agency</span>
+    </a>
+    <nav aria-label="Pie de página">
+      <a href="/#servicios">Servicios</a>
+      <a href="/portafolio">Portafolio</a>
+      <a href="/propuesta">Propuesta</a>
+      <a href="/contacto">Contacto</a>
+    </nav>
+    <span class="place">Cali, Colombia 2026</span>
+  </div>
+</footer>
+
+<style>
+  .footer { background: var(--ink); color: #BDBDBD; border-top: 1px solid #2A2A2A; }
+  .row { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; padding-block: 28px; font-size: .9rem; }
+  .brand { display: flex; align-items: flex-end; gap: 10px; text-decoration: none; }
+  .brand :global(img) { height: 24px; width: auto; }
+  .brand span { font: 500 .7rem var(--font-mono); letter-spacing: .16em; text-transform: uppercase; }
+  nav { display: flex; gap: 20px; flex-wrap: wrap; }
+  nav a { text-decoration: none; color: #FFFFFF; }
+  nav a:hover { color: var(--yellow); }
+</style>

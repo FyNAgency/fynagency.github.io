@@ -1,0 +1,38 @@
+---
+import { Image } from 'astro:assets';
+import logoNegro from '../../assets/logo-negro.png';
+import SiteMenu from '../SiteMenu.astro';
+
+interface Props {
+  current?: 'inicio' | 'portafolio' | 'propuesta' | 'contacto';
+}
+
+const { current = 'inicio' } = Astro.props;
+---
+
+<header class="site-header" data-header>
+  <div class="wrap bar">
+    <a class="brand" href="/" aria-label="F&N Agency, inicio">
+      <Image src={logoNegro} alt="F&N" width={170} loading="eager" />
+      <span>Agency</span>
+    </a>
+    <SiteMenu current={current} />
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    padding-top: env(safe-area-inset-top, 0px);
+    transition: transform .4s cubic-bezier(.2,.8,.2,1), background-color .3s ease, box-shadow .3s ease;
+  }
+  .site-header:global(.is-scrolled) { background: rgba(255, 255, 255, .88); backdrop-filter: blur(10px); box-shadow: 0 1px 0 var(--line); }
+  .site-header:global(.is-hidden) { transform: translateY(-110%); }
+  .bar { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 14px; }
+  .brand { display: flex; align-items: flex-end; gap: 10px; text-decoration: none; }
+  .brand :global(img) { height: 34px; width: auto; }
+  .brand span { font: 500 .72rem var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  @media (prefers-reduced-motion: reduce) {
+    .site-header { transition: none; }
+  }
+</style>

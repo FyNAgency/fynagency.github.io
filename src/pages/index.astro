@@ -1,30 +1,37 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import Hero from '../components/Hero.astro';
-import Results from '../components/Results.astro';
-import Process from '../components/Process.astro';
-import Plans from '../components/Plans.astro';
-import FabioParra from '../components/FabioParra.astro';
-import Payment from '../components/Payment.astro';
-import Closing from '../components/Closing.astro';
-import Footer from '../components/Footer.astro';
+import '../styles/home.css';
+import HomeHeader from '../components/home/HomeHeader.astro';
+import HomeHero from '../components/home/HomeHero.astro';
+import Marquee from '../components/home/Marquee.astro';
+import Services from '../components/home/Services.astro';
+import Reel from '../components/home/Reel.astro';
+import Numbers from '../components/home/Numbers.astro';
+import Process from '../components/home/Process.astro';
+import Fabio from '../components/home/Fabio.astro';
+import Contact from '../components/home/Contact.astro';
+import HomeFooter from '../components/home/HomeFooter.astro';
 ---
 
 <Layout
-  title="Propuesta F&N Agency"
-  description="Estrategia, grabación, edición y publicación de videos para tu negocio. Conoce nuestros paquetes y resultados reales."
-  shareDescription="Contenido que hace crecer tu negocio. Mira los paquetes, los resultados y escríbenos por WhatsApp."
+  title="F&N Agency · Contenido que mueve tu negocio"
+  description="Agencia de contenido en Cali. Estrategia, grabación, edición y publicación de reels para restaurantes y negocios locales."
+  shareDescription="Estrategia, grabación, edición y publicación de reels para tu negocio en Cali."
 >
-  <Header />
+  <HomeHeader />
   <main>
-    <Hero />
-    <Results />
+    <HomeHero />
+    <Marquee />
+    <Services />
+    <Reel />
+    <Numbers />
     <Process />
-    <Plans />
-    <FabioParra />
-    <Payment />
-    <Closing />
+    <Fabio />
+    <Contact />
   </main>
-  <Footer />
+  <HomeFooter />
 </Layout>
+
+<script>
+  import '../scripts/home-motion.ts';
+</script>

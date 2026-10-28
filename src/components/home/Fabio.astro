@@ -1,0 +1,63 @@
+---
+import { Image } from 'astro:assets';
+import videoBurger from '../../assets/video-burger.jpg';
+import Mosaic, { type Tile } from './Mosaic.astro';
+
+const tiles: Tile[] = [
+  { shape: 'circle', color: '#FFC21A' },
+  { shape: 'quarter', color: '#0B0B0B', rot: 90 },
+  { shape: 'leaf', color: '#2F5BFF', bg: '#FFC21A' },
+  { shape: 'half', color: '#FF4D2E', rot: 180 },
+];
+---
+
+<section class="fabio" aria-labelledby="fabio-title">
+  <div class="wrap box" data-fabio>
+    <div class="copy">
+      <span class="eyebrow">Recomendación</span>
+      <h2 id="fabio-title">Tu negocio,<br />recomendado por<br /><span>@Fabio Parra.</span></h2>
+      <p>Aprovechamos la imagen y el público de Fabio Parra. Grabamos, editamos y te entregamos el video listo para publicar, para que más gente conozca tu marca y llegue a tu local.</p>
+      <div class="prices">
+        <div><b>$300.000</b><small>1 video</small></div>
+        <div><b>$500.000</b><small>2 videos</small></div>
+      </div>
+      <a class="btn btn-ink" href="/propuesta#fabio">Ver detalles</a>
+    </div>
+    <div class="visual">
+      <Mosaic tiles={tiles} cols={2} class="fab-mosaic" />
+      <div class="phone" data-parallax="-0.1">
+        <Image src={videoBurger} alt="Fabio Parra recomendando una hamburguesería en Cali" width={460} />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .fabio { padding-block: clamp(40px, 6vw, 80px); }
+  .box {
+    background: var(--pink); border-radius: 40px; margin-inline: max(var(--gutter), env(safe-area-inset-left, 0px));
+    padding-block: clamp(36px, 5vw, 72px); display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: clamp(28px, 4vw, 60px); align-items: center; overflow: hidden;
+  }
+  .copy { display: grid; gap: 22px; justify-items: start; min-width: 0; }
+  .eyebrow { color: var(--ink); }
+  h2 { font-size: clamp(2.4rem, 5.2vw, 5rem); }
+  h2 span { color: #1A3BCC; }
+  .copy p { max-width: 46ch; font-size: 1.08rem; }
+  .prices { display: flex; gap: 14px; flex-wrap: wrap; }
+  .prices div { background: #FFFFFF; border-radius: 20px; padding: 14px 20px; display: grid; }
+  .prices b { font: 800 1.7rem/1 var(--font-display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+  .prices small { font: 500 .72rem var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
+  .visual { position: relative; min-width: 0; aspect-ratio: 1; max-width: 460px; width: 100%; justify-self: center; }
+  .visual :global(.fab-mosaic) { position: absolute; inset: 0; }
+  .phone {
+    position: absolute; width: 50%; aspect-ratio: 9 / 16; left: 25%; top: 6%; border: 7px solid var(--ink); border-radius: 26px;
+    overflow: hidden; background: var(--ink); transform: rotate(-5deg); box-shadow: 0 30px 60px -28px rgba(11, 11, 11, .6);
+  }
+  .phone :global(img) { width: 100%; height: 100%; object-fit: cover; }
+
+  @media (max-width: 900px) {
+    .box { grid-template-columns: 1fr; border-radius: 28px; }
+    .visual { max-width: 340px; }
+  }
+</style>

@@ -1,0 +1,46 @@
+---
+import { contacto, whatsappUrl } from '../../data/propuesta';
+---
+
+<section class="contact" id="contacto" data-contact>
+  <div class="orbit" aria-hidden="true">
+    <i class="o1"></i><i class="o2"></i><i class="o3"></i><i class="o4"></i>
+  </div>
+  <div class="wrap inner">
+    <span class="eyebrow">Contacto</span>
+    <h2 data-split>¿Grabamos<br />tu negocio?</h2>
+    <p>Escríbenos por WhatsApp. Te contamos cómo funciona y agendamos la primera visita a tu local.</p>
+    <div class="ctas">
+      <a class="btn btn-wa" href={whatsappUrl('Hola F&N, vi su página y quiero saber más sobre sus servicios.')} target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1-.7-.3-1.4-.7-2-1.3-.5-.5-1-1.1-1.3-1.7-.1-.2 0-.4.1-.5l.4-.5.3-.4v-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3c-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3 1.8.8 2.5.8 3.4.7.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.5-.3z" /></svg>
+        Escríbenos por WhatsApp
+      </a>
+      <a class="btn btn-ghost-light" href="/propuesta">Ver la propuesta</a>
+    </div>
+    <p class="phone-line">{contacto.telefonoVisible}</p>
+  </div>
+</section>
+
+<style>
+  .contact { position: relative; background: var(--ink); color: #FFFFFF; overflow: hidden; padding-block: clamp(90px, 14vw, 200px); }
+  .inner { position: relative; z-index: 1; display: grid; gap: 26px; justify-items: start; }
+  .eyebrow { color: #BDBDBD; }
+  h2 { font-size: clamp(3.2rem, 11vw, 11rem); }
+  .inner > p { font-size: clamp(1.05rem, 1.5vw, 1.3rem); max-width: 44ch; color: #D8D8D8; }
+  .ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+  .btn-wa { background: var(--yellow); color: var(--ink); border-color: var(--yellow); }
+  .btn-wa:hover { background: #FFFFFF; border-color: #FFFFFF; }
+  .btn-ghost-light { background: transparent; color: #FFFFFF; border-color: #FFFFFF; }
+  .btn-ghost-light:hover { background: #FFFFFF; color: var(--ink); }
+  .phone-line { font: 500 1rem var(--font-mono); letter-spacing: .08em; color: #BDBDBD; user-select: all; }
+  .orbit { position: absolute; right: -10vmin; top: 50%; width: 70vmin; aspect-ratio: 1; translate: 0 -50%; display: grid; grid-template-columns: 1fr 1fr; opacity: .95; }
+  .orbit i { display: block; }
+  .o1 { background: var(--yellow); border-radius: 100% 0 0 0; }
+  .o2 { background: var(--blue); border-radius: 50%; }
+  .o3 { background: var(--red); border-radius: 0 100% 0 100%; }
+  .o4 { background: var(--mint); border-radius: 0 0 100% 0; }
+
+  @media (max-width: 900px) {
+    .orbit { width: 60vmin; top: auto; bottom: -14vmin; translate: none; right: -14vmin; opacity: .5; }
+  }
+</style>

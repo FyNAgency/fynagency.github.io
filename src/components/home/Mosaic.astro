@@ -1,0 +1,36 @@
+---
+/**
+ * Bauhaus-style tile mosaic. Each tile is a square with a background color
+ * and one geometric shape on top; tiles rotate in on scroll (see home-motion.ts).
+ */
+export type Shape = 'circle' | 'half' | 'quarter' | 'leaf' | 'dot' | 'ring' | 'square' | 'empty';
+export type Tile = { shape: Shape; color: string; bg?: string; rot?: 0 | 90 | 180 | 270 };
+
+interface Props {
+  tiles: Tile[];
+  cols: number;
+  class?: string;
+}
+
+const { tiles, cols, class: className } = Astro.props;
+---
+
+<div class:list={['mosaic', className]} style={`--cols: ${cols}`} aria-hidden="true" data-mosaic>
+  {tiles.map((t) => (
+    <div class="tile" style={`--bg: ${t.bg ?? 'transparent'}; --fg: ${t.color}; --rot: ${t.rot ?? 0}deg`} data-tile>
+      {t.shape !== 'empty' && <i class={`s-${t.shape}`}></i>}
+    </div>
+  ))}
+</div>
+
+<style>
+  .mosaic { display: grid; grid-template-columns: repeat(var(--cols), 1fr); }
+  .tile { aspect-ratio: 1; background: var(--bg); position: relative; transform: rotate(var(--rot)); }
+  .tile i { position: absolute; inset: 0; background: var(--fg); display: block; }
+  .s-circle { border-radius: 50%; }
+  .s-half { top: 50% !important; border-radius: 0 0 999px 999px / 0 0 100% 100%; }
+  .s-quarter { border-radius: 100% 0 0 0; }
+  .s-leaf { border-radius: 100% 0 100% 0; }
+  .s-dot { inset: 34% !important; border-radius: 50%; }
+  .s-ring { inset: 14% !important; border-radius: 50%; background: transparent !important; border: clamp(6px, 1.4vw, 14px) solid var(--fg); }
+</style>

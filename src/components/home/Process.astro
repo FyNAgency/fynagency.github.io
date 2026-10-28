@@ -1,0 +1,57 @@
+---
+const pasos = [
+  { titulo: 'Conocemos tu negocio', texto: 'Hablamos contigo, vemos tu local y armamos una estrategia de contenido a la medida de tu nicho.', bg: '#FFC21A', fg: '#0B0B0B', shape: 'quarter' },
+  { titulo: 'Vamos a grabar', texto: 'Visitamos tu local entre 4 y 6 veces al mes, según el paquete, y grabamos todo con enfoque estratégico.', bg: '#2F5BFF', fg: '#FFFFFF', shape: 'circle' },
+  { titulo: 'Editamos', texto: 'Convertimos cada grabación en reels con ritmo, textos y ganchos para que la gente se quede.', bg: '#FF4D2E', fg: '#0B0B0B', shape: 'leaf' },
+  { titulo: 'Publicamos', texto: 'Publicamos de 1 a 3 videos diarios, según tu paquete, con el formato y la descripción correctos.', bg: '#1FC99A', fg: '#0B0B0B', shape: 'half' },
+];
+---
+
+<section class="process" id="proceso">
+  <div class="wrap layout">
+    <div class="side">
+      <span class="eyebrow">Cómo trabajamos</span>
+      <h2>Del plan<br />a la<br />publicación.</h2>
+      <a class="btn btn-ink" href="/propuesta#paquetes">Ver paquetes</a>
+    </div>
+    <ol class="stack">
+      {pasos.map((p, i) => (
+        <li class="card" style={`--bg: ${p.bg}; --fg: ${p.fg}; --i: ${i}`} data-step>
+          <span class="n">Paso {i + 1}</span>
+          <h3>{p.titulo}</h3>
+          <p>{p.texto}</p>
+          <i class={`shape ${p.shape}`} aria-hidden="true"></i>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .process { padding-block: clamp(72px, 10vw, 140px); }
+  .layout { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(28px, 5vw, 80px); align-items: start; }
+  .side { position: sticky; top: 110px; display: grid; gap: 22px; justify-items: start; }
+  h2 { font-size: clamp(2.8rem, 6.4vw, 6.4rem); }
+  .stack { list-style: none; margin: 0; padding: 0; display: grid; gap: 24px; }
+  .card {
+    position: sticky; top: calc(110px + var(--i) * 22px);
+    background: var(--bg); color: var(--fg); border-radius: 32px; padding: clamp(26px, 3.4vw, 44px);
+    min-height: 340px; display: flex; flex-direction: column; justify-content: flex-end; gap: 12px; overflow: hidden;
+    box-shadow: 0 -18px 40px -24px rgba(11, 11, 11, .35);
+  }
+  .n { font: 500 .8rem var(--font-mono); letter-spacing: .14em; text-transform: uppercase; }
+  h3 { font-size: clamp(2rem, 3.8vw, 3.4rem); position: relative; z-index: 1; }
+  .card p { max-width: 38ch; font-size: 1.05rem; position: relative; z-index: 1; }
+  .shape { position: absolute; top: 24px; right: 24px; width: clamp(90px, 12vw, 150px); aspect-ratio: 1; background: #0B0B0B; opacity: .9; }
+  .card:nth-child(2) .shape { background: #FFC21A; }
+  .quarter { border-radius: 100% 0 0 0; }
+  .circle { border-radius: 50%; }
+  .leaf { border-radius: 100% 0 100% 0; }
+  .half { border-radius: 999px 999px 0 0; height: calc(clamp(90px, 12vw, 150px) / 2); aspect-ratio: auto; }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    .side { position: static; }
+    .card { top: calc(84px + var(--i) * 14px); min-height: 280px; }
+  }
+</style>

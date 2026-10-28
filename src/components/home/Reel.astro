@@ -1,0 +1,73 @@
+---
+import { Image } from 'astro:assets';
+import videoSopa from '../../assets/video-sopa.jpg';
+import videoBurger from '../../assets/video-burger.jpg';
+import videoGranos from '../../assets/video-granos.jpg';
+import igStats1 from '../../assets/ig-stats-1.jpg';
+import igStats2 from '../../assets/ig-stats-2.jpg';
+import tiktokStats from '../../assets/tiktok-stats.jpg';
+
+const cards = [
+  { img: videoSopa, alt: 'Reel en un restaurante de sopas de Cali', valor: 1748617, etiqueta: 'reproducciones en Instagram', color: '#FFC21A', ink: '#0B0B0B' },
+  { img: igStats1, alt: 'Estadísticas de Instagram del reel de sopas: 222.271 cuentas alcanzadas y 2.997 seguidores', valor: 222271, etiqueta: 'cuentas alcanzadas', color: '#2F5BFF', ink: '#FFFFFF' },
+  { img: videoBurger, alt: 'Reel en una hamburguesería de Cali', valor: 558230, etiqueta: 'reproducciones en Instagram', color: '#FF4D2E', ink: '#0B0B0B' },
+  { img: igStats2, alt: 'Estadísticas de Instagram del reel de hamburguesas: 41.129 espectadores y 2.023 seguidores', valor: 2023, etiqueta: 'seguidores nuevos', color: '#1FC99A', ink: '#0B0B0B' },
+  { img: videoGranos, alt: 'Video en un local de granos publicado en TikTok', valor: 85900, etiqueta: 'visualizaciones en TikTok', color: '#FF9FCB', ink: '#0B0B0B' },
+  { img: tiktokStats, alt: 'Estadísticas de TikTok Studio: 295 horas de reproducción y 1,1 K seguidores nuevos', valor: 295, etiqueta: 'horas de reproducción', color: '#0B0B0B', ink: '#FFFFFF' },
+];
+
+const fmt = (n: number) => n.toLocaleString('es-CO');
+---
+
+<section class="reel" id="resultados" data-reel>
+  <div class="pin" data-reel-pin>
+    <div class="wrap intro">
+      <span class="eyebrow">Resultados reales</span>
+      <h2>Videos que<br />la gente<br /><em>sí</em> ve.</h2>
+      <p>Métricas tomadas de Instagram y TikTok, de negocios para los que grabamos.</p>
+    </div>
+    <div class="track" data-reel-track>
+      {cards.map((c) => (
+        <article class="card" style={`--c: ${c.color}; --on: ${c.ink}`}>
+          <div class="shot"><Image src={c.img} alt={c.alt} width={420} /></div>
+          <div class="meta">
+            <b class="num" data-count={c.valor}>{fmt(c.valor)}</b>
+            <span>{c.etiqueta}</span>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .reel { position: relative; padding-block: clamp(72px, 10vw, 140px) 40px; }
+  .pin { display: flex; align-items: center; gap: clamp(24px, 4vw, 64px); min-height: 100svh; }
+  .intro { flex: none; width: min(460px, 38vw); display: grid; gap: 18px; padding-right: 0 !important; }
+  h2 { font-size: clamp(2.6rem, 5.6vw, 5.6rem); }
+  em { font-style: normal; color: var(--red); }
+  .intro p { color: var(--muted); max-width: 32ch; }
+  .track { display: flex; gap: 22px; padding-right: max(var(--gutter), env(safe-area-inset-right, 0px)); will-change: transform; }
+  .card {
+    flex: none; width: clamp(240px, 22vw, 320px); background: var(--c); color: var(--on);
+    border-radius: 28px; padding: 14px 14px 20px; display: grid; gap: 16px;
+  }
+  .card:nth-child(even) { transform: translateY(48px) rotate(1.5deg); }
+  .card:nth-child(odd) { transform: rotate(-1.5deg); }
+  .shot { aspect-ratio: 9 / 15; border-radius: 18px; overflow: hidden; background: #0B0B0B; }
+  .shot :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .meta { display: grid; gap: 4px; padding-inline: 6px; }
+  .num { font: 800 clamp(1.9rem, 2.6vw, 2.5rem)/1 var(--font-display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+  .meta span { font: 500 .78rem var(--font-mono); letter-spacing: .08em; text-transform: uppercase; opacity: .85; }
+
+  @media (max-width: 900px) {
+    .pin { flex-direction: column; align-items: stretch; min-height: 0; }
+    .intro { width: auto; padding-right: max(var(--gutter), env(safe-area-inset-right, 0px)) !important; }
+    .track {
+      overflow-x: auto; scroll-snap-type: x mandatory; padding-left: max(var(--gutter), env(safe-area-inset-left, 0px));
+      padding-bottom: 56px; scrollbar-width: none;
+    }
+    .track::-webkit-scrollbar { display: none; }
+    .card { width: 72vw; max-width: 300px; scroll-snap-align: center; }
+  }
+</style>

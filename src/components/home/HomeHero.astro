@@ -1,0 +1,108 @@
+---
+import { Image } from 'astro:assets';
+import Mosaic, { type Tile } from './Mosaic.astro';
+import videoSopa from '../../assets/video-sopa.jpg';
+
+const left: Tile[] = [
+  { shape: 'dot', color: '#2F5BFF', bg: '#FFC21A' },
+  { shape: 'empty', color: '' },
+  { shape: 'quarter', color: '#2F5BFF', rot: 90 },
+  { shape: 'half', color: '#1FC99A', rot: 180 },
+  { shape: 'circle', color: '#FF4D2E' },
+  { shape: 'leaf', color: '#FF9FCB', bg: '#0B0B0B' },
+  { shape: 'ring', color: '#0B0B0B', bg: '#FFC21A' },
+  { shape: 'quarter', color: '#1FC99A', rot: 270 },
+  { shape: 'half', color: '#2F5BFF' },
+];
+
+const right: Tile[] = [
+  { shape: 'half', color: '#FF4D2E', rot: 90 },
+  { shape: 'circle', color: '#FFC21A' },
+  { shape: 'leaf', color: '#2F5BFF', rot: 90 },
+  { shape: 'quarter', color: '#FF9FCB', bg: '#1FC99A', rot: 180 },
+];
+---
+
+<section class="hero" data-hero>
+  <div class="wrap grid">
+    <div class="copy">
+      <span class="eyebrow" data-fade>Agencia de contenido · Cali, Colombia</span>
+      <h1 data-split>
+        Contenido<br />que mueve<br /><span class="hl">tu negocio.</span>
+      </h1>
+      <p class="lede" data-fade>Estrategia, grabación, edición y publicación de videos para restaurantes y negocios locales. Vamos a tu local y convertimos lo que haces en reels que la gente sí ve.</p>
+      <div class="ctas" data-fade>
+        <a class="btn btn-ink" href="/propuesta">Ver la propuesta
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+        </a>
+        <a class="btn btn-line" href="#resultados">Ver resultados</a>
+      </div>
+    </div>
+
+    <div class="art">
+      <Mosaic tiles={left} cols={3} class="m-left" />
+      <div class="disc" data-parallax="-0.25" aria-hidden="true"></div>
+      <figure class="phone" data-parallax="0.12">
+        <Image src={videoSopa} alt="Reel grabado por F&N en un restaurante de Cali, 1,7 millones de reproducciones" width={540} loading="eager" fetchpriority="high" />
+        <figcaption><span class="dot"></span>1,7 M reproducciones</figcaption>
+      </figure>
+      <Mosaic tiles={right} cols={2} class="m-right" />
+    </div>
+  </div>
+
+  <a class="scroll-cue" href="#marquee" aria-label="Descubre más">
+    <span>Descubre más</span><i aria-hidden="true"></i>
+  </a>
+</section>
+
+<style>
+  .hero { position: relative; padding-top: 110px; padding-bottom: 72px; }
+  .grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 64px); align-items: center; }
+  .copy { min-width: 0; position: relative; z-index: 2; }
+  h1 { font-size: clamp(3.2rem, 9.2vw, 9.4rem); margin-top: 22px; }
+  .hl { position: relative; display: inline-block; isolation: isolate; white-space: nowrap; }
+  .hl::after {
+    content: ""; position: absolute; left: -.04em; right: -.04em; bottom: .06em; height: .26em; background: var(--yellow); z-index: -1;
+    transform-origin: left; transform: scaleX(var(--hl, 1));
+  }
+  .lede { font-size: clamp(1.05rem, 1.4vw, 1.25rem); color: var(--muted); max-width: 44ch; margin-top: 28px; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+
+  .art { position: relative; min-width: 0; aspect-ratio: 1 / 1.05; max-width: 640px; justify-self: end; width: 100%; }
+  .art :global(.m-left) { position: absolute; left: 0; bottom: 0; width: 54%; }
+  .art :global(.m-right) { position: absolute; right: 0; top: 0; width: 34%; }
+  .disc { position: absolute; width: 62%; aspect-ratio: 1; border-radius: 50%; background: var(--blue); right: 6%; top: 18%; }
+  .phone {
+    position: absolute; margin: 0; width: 40%; aspect-ratio: 9 / 16; right: 18%; top: 10%; z-index: 3;
+    border: 7px solid var(--ink); border-radius: 26px; overflow: hidden; background: var(--ink);
+    box-shadow: 0 40px 70px -30px rgba(11, 11, 11, .55); transform: rotate(6deg);
+  }
+  .phone :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .phone figcaption {
+    position: absolute; left: 10px; right: 10px; bottom: 10px; display: flex; align-items: center; gap: 8px;
+    background: #FFFFFF; color: var(--ink); border-radius: 999px; padding: 6px 12px; font: 600 .78rem var(--font-body);
+  }
+  .phone .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); flex: none; }
+
+  .scroll-cue {
+    position: absolute; left: max(var(--gutter), env(safe-area-inset-left, 0px)); bottom: 8px;
+    display: flex; flex-direction: column; align-items: center; gap: 10px; text-decoration: none;
+    font: 500 .72rem var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--muted);
+  }
+  .scroll-cue span { writing-mode: vertical-rl; transform: rotate(180deg); }
+  .scroll-cue i { width: 2px; height: 46px; background: var(--ink); transform-origin: top; animation: cue 1.8s ease-in-out infinite; }
+  @keyframes cue { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+
+  @media (max-width: 1280px) {
+    .scroll-cue { display: none; }
+  }
+  @media (max-width: 900px) {
+    .hero { padding-top: 92px; }
+    .grid { grid-template-columns: 1fr; }
+    .art { order: -1; max-width: 520px; justify-self: center; }
+    .scroll-cue { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-cue i { animation: none; }
+  }
+</style>

@@ -1,0 +1,43 @@
+---
+// Totals of the three reels shown in Resultados (1.748.617 + 558.230 + 85.900; 2.997 + 2.023 + 1.100).
+const cifras = [
+  { valor: 2.39, decimales: 2, sufijo: ' M', texto: 'reproducciones en solo 3 videos', bg: '#FFC21A', fg: '#0B0B0B' },
+  { valor: 6120, decimales: 0, sufijo: '', prefijo: '+', texto: 'seguidores nuevos para esos negocios', bg: '#2F5BFF', fg: '#FFFFFF' },
+  { valor: 90, decimales: 0, sufijo: '', texto: 'videos al mes en nuestro paquete Premium', bg: '#FF4D2E', fg: '#0B0B0B' },
+];
+const fmt = (n: number, d: number) => n.toLocaleString('es-CO', { minimumFractionDigits: d, maximumFractionDigits: d });
+---
+
+<section class="numbers" aria-label="Cifras">
+  <div class="wrap grid">
+    {cifras.map((c, i) => (
+      <div class="cell" style={`--bg: ${c.bg}; --fg: ${c.fg}`} data-cell>
+        <b data-count={c.valor} data-decimals={c.decimales} data-prefix={c.prefijo ?? ''} data-suffix={c.sufijo}>
+          {c.prefijo ?? ''}{fmt(c.valor, c.decimales)}{c.sufijo}
+        </b>
+        <span>{c.texto}</span>
+        <i class={`deco d${i}`} aria-hidden="true"></i>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .numbers { padding-block: clamp(56px, 8vw, 110px); }
+  .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .cell {
+    position: relative; overflow: hidden; background: var(--bg); color: var(--fg); border-radius: 32px;
+    padding: clamp(24px, 3vw, 40px); min-height: 300px; display: flex; flex-direction: column; justify-content: flex-end; gap: 10px;
+  }
+  b { font: 800 clamp(3rem, 6.4vw, 6.2rem)/.9 var(--font-display); letter-spacing: -0.05em; font-variant-numeric: tabular-nums; position: relative; z-index: 1; }
+  span { font-size: 1.05rem; max-width: 22ch; position: relative; z-index: 1; font-weight: 600; }
+  .deco { position: absolute; width: 46%; aspect-ratio: 1; top: -8%; right: -8%; }
+  .d0 { background: #0B0B0B; border-radius: 0 0 0 100%; }
+  .d1 { background: #FF9FCB; border-radius: 50%; }
+  .d2 { background: #1FC99A; border-radius: 100% 0 100% 0; }
+
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+    .cell { min-height: 220px; }
+  }
+</style>

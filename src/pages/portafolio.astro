@@ -1,0 +1,188 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import '../styles/home.css';
+import HomeHeader from '../components/home/HomeHeader.astro';
+import HomeFooter from '../components/home/HomeFooter.astro';
+import Mosaic, { type Tile } from '../components/home/Mosaic.astro';
+import videoSopa from '../assets/video-sopa.jpg';
+import videoBurger from '../assets/video-burger.jpg';
+import videoGranos from '../assets/video-granos.jpg';
+import igStats1 from '../assets/ig-stats-1.jpg';
+import igStats2 from '../assets/ig-stats-2.jpg';
+import tiktokStats from '../assets/tiktok-stats.jpg';
+
+const proyectos = [
+  {
+    tipo: 'Restaurante de sopas',
+    red: 'Instagram',
+    titulo: 'Un reel, 1,7 millones de reproducciones.',
+    texto: 'Grabamos en el local y lo editamos con un gancho directo para antojar desde el primer segundo.',
+    video: videoSopa,
+    videoAlt: 'Reel grabado en un restaurante de sopas en Cali',
+    stats: igStats1,
+    statsAlt: 'Estadísticas de Instagram: 1.748.617 reproducciones, 222.271 cuentas alcanzadas, 2.997 seguidores',
+    metricas: [
+      { valor: 1748617, etiqueta: 'reproducciones' },
+      { valor: 222271, etiqueta: 'cuentas alcanzadas' },
+      { valor: 2997, etiqueta: 'seguidores nuevos' },
+    ],
+    color: '#FFC21A',
+    fg: '#0B0B0B',
+  },
+  {
+    tipo: 'Hamburguesería',
+    red: 'Instagram',
+    titulo: 'Más de medio millón de personas lo vieron.',
+    texto: 'Un video en la puerta del local, con texto en pantalla y ritmo rápido para que la gente se quede hasta el final.',
+    video: videoBurger,
+    videoAlt: 'Reel grabado en una hamburguesería en Cali',
+    stats: igStats2,
+    statsAlt: 'Estadísticas de Instagram: 558.230 reproducciones, 41.129 espectadores, 2.023 seguidores',
+    metricas: [
+      { valor: 558230, etiqueta: 'reproducciones' },
+      { valor: 41129, etiqueta: 'espectadores' },
+      { valor: 2023, etiqueta: 'seguidores nuevos' },
+    ],
+    color: '#2F5BFF',
+    fg: '#FFFFFF',
+  },
+  {
+    tipo: 'Tienda de granos',
+    red: 'TikTok',
+    titulo: '295 horas de gente viendo un video.',
+    texto: 'Contenido sencillo, grabado en el día a día del negocio, que en TikTok sumó miles de visualizaciones y seguidores.',
+    video: videoGranos,
+    videoAlt: 'Video grabado en una tienda de granos',
+    stats: tiktokStats,
+    statsAlt: 'Estadísticas de TikTok Studio: 85,9 K visualizaciones, 295 horas de reproducción, 1,1 K seguidores nuevos',
+    metricas: [
+      { valor: 85900, etiqueta: 'visualizaciones' },
+      { valor: 295, etiqueta: 'horas de reproducción' },
+      { valor: 1100, etiqueta: 'seguidores nuevos' },
+    ],
+    color: '#FF4D2E',
+    fg: '#0B0B0B',
+  },
+];
+
+const tiles: Tile[] = [
+  { shape: 'quarter', color: '#FF4D2E' },
+  { shape: 'circle', color: '#FFC21A', bg: '#0B0B0B' },
+  { shape: 'half', color: '#2F5BFF', rot: 180 },
+  { shape: 'leaf', color: '#1FC99A' },
+  { shape: 'dot', color: '#FFFFFF', bg: '#FF9FCB' },
+  { shape: 'quarter', color: '#2F5BFF', rot: 180 },
+];
+
+const fmt = (n: number) => n.toLocaleString('es-CO');
+---
+
+<Layout
+  title="Portafolio · F&N Agency"
+  description="Reels que grabamos para restaurantes y negocios de Cali, con sus resultados reales en Instagram y TikTok."
+  shareDescription="Reels que grabamos para negocios de Cali y los resultados que tuvieron."
+>
+  <HomeHeader current="portafolio" />
+  <main>
+    <section class="p-hero" data-hero>
+      <div class="wrap grid">
+        <div>
+          <span class="eyebrow" data-fade>Portafolio</span>
+          <h1 data-split>Videos que<br /><span class="hl">funcionaron.</span></h1>
+          <p class="lede" data-fade>Estos son algunos reels que grabamos para negocios locales, con las métricas reales que mostraron Instagram y TikTok.</p>
+        </div>
+        <Mosaic tiles={tiles} cols={3} class="p-mosaic" />
+      </div>
+    </section>
+
+    {proyectos.map((p, i) => (
+      <section class:list={['project', { flip: i % 2 === 1 }]} style={`--c: ${p.color}; --on: ${p.fg}`} data-project>
+        <div class="wrap layout">
+          <div class="media">
+            <div class="panel" aria-hidden="true"></div>
+            <figure class="phone" data-parallax="-0.08">
+              <Image src={p.video} alt={p.videoAlt} width={460} />
+            </figure>
+            <figure class="stats" data-parallax="0.1">
+              <Image src={p.stats} alt={p.statsAlt} width={420} />
+            </figure>
+          </div>
+          <div class="info">
+            <span class="eyebrow">{String(i + 1).padStart(2, '0')} · {p.tipo} · {p.red}</span>
+            <h2 data-split>{p.titulo}</h2>
+            <p data-fade>{p.texto}</p>
+            <dl class="metrics">
+              {p.metricas.map((m) => (
+                <div>
+                  <dt>{m.etiqueta}</dt>
+                  <dd data-count={m.valor}>{fmt(m.valor)}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </div>
+      </section>
+    ))}
+
+    <section class="cta">
+      <div class="wrap cta-inner">
+        <h2 data-split>¿El próximo<br />es tu negocio?</h2>
+        <div class="cta-actions">
+          <a class="btn btn-ink" href="/contacto">Hablemos</a>
+          <a class="btn btn-line" href="/propuesta#paquetes">Ver paquetes</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <HomeFooter />
+</Layout>
+
+<script>
+  import '../scripts/home-motion.ts';
+</script>
+
+<style>
+  .p-hero { padding-top: 130px; padding-bottom: clamp(48px, 7vw, 100px); }
+  .grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, .8fr); gap: clamp(24px, 4vw, 64px); align-items: end; }
+  h1 { font-size: clamp(3.2rem, 10vw, 10rem); margin-top: 20px; }
+  .hl { position: relative; display: inline-block; isolation: isolate; white-space: nowrap; }
+  .hl::after { content: ""; position: absolute; left: -.04em; right: -.04em; bottom: .06em; height: .26em; background: var(--red); z-index: -1; transform-origin: left; transform: scaleX(var(--hl, 1)); }
+  .lede { font-size: clamp(1.05rem, 1.4vw, 1.25rem); color: var(--muted); max-width: 46ch; margin-top: 26px; }
+  .grid :global(.p-mosaic) { width: 100%; max-width: 360px; justify-self: end; }
+
+  .project { padding-block: clamp(56px, 8vw, 120px); border-top: 2px solid var(--ink); }
+  .layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 80px); align-items: center; }
+  .flip .media { order: 2; }
+  .media { position: relative; aspect-ratio: 1 / 1; max-width: 620px; width: 100%; justify-self: center; }
+  .panel { position: absolute; inset: 6% 0 6% 6%; background: var(--c); border-radius: 40px; }
+  .flip .panel { inset: 6% 6% 6% 0; }
+  .phone, .stats { position: absolute; margin: 0; overflow: hidden; border-radius: 24px; box-shadow: 0 30px 60px -28px rgba(11, 11, 11, .55); }
+  .phone { width: 42%; aspect-ratio: 9 / 16; left: 14%; top: 4%; border: 7px solid var(--ink); background: var(--ink); transform: rotate(-5deg); }
+  .stats { width: 38%; aspect-ratio: 9 / 15; right: 8%; bottom: 2%; background: #FFFFFF; border: 1px solid var(--line); transform: rotate(4deg); }
+  .phone :global(img), .stats :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .info { display: grid; gap: 20px; min-width: 0; }
+  .info h2 { font-size: clamp(2.2rem, 4.6vw, 4.4rem); }
+  .info > p { color: var(--muted); font-size: 1.08rem; max-width: 46ch; }
+  .metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin: 10px 0 0; border-top: 2px solid var(--ink); }
+  .metrics div { padding: 16px 14px 0 0; min-width: 0; }
+  .metrics div + div { padding-left: 14px; border-left: 1px solid var(--line); }
+  dt { font: 500 .72rem var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); order: 2; }
+  dd { margin: 0 0 6px; font: 800 clamp(1.5rem, 2.6vw, 2.4rem)/1 var(--font-display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+  .metrics div { display: flex; flex-direction: column-reverse; justify-content: flex-end; }
+
+  .cta { background: var(--yellow); padding-block: clamp(72px, 10vw, 140px); }
+  .cta-inner { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 28px; }
+  .cta h2 { font-size: clamp(2.8rem, 8vw, 7.6rem); }
+  .cta-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  @media (max-width: 900px) {
+    .p-hero { padding-top: 100px; }
+    .grid { grid-template-columns: 1fr; }
+    .grid :global(.p-mosaic) { max-width: 220px; justify-self: start; order: -1; }
+    .layout { grid-template-columns: 1fr; }
+    .flip .media { order: 0; }
+    .metrics { grid-template-columns: 1fr 1fr 1fr; }
+    dd { font-size: 1.35rem; }
+  }
+</style>

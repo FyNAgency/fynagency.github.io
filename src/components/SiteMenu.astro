@@ -1,0 +1,110 @@
+---
+interface Props {
+  /** Which link to mark as the current page. */
+  current?: 'inicio' | 'portafolio' | 'propuesta' | 'contacto';
+}
+
+const { current = 'inicio' } = Astro.props;
+
+const links = [
+  { label: 'Inicio', href: '/', key: 'inicio', color: '#FFC21A' },
+  { label: 'Servicios', href: '/#servicios', color: '#2F5BFF' },
+  { label: 'Portafolio', href: '/portafolio', key: 'portafolio', color: '#FF4D2E' },
+  { label: 'Propuesta', href: '/propuesta', key: 'propuesta', color: '#FF9FCB' },
+  { label: 'Contacto', href: '/contacto', key: 'contacto', color: '#1FC99A' },
+];
+---
+
+<button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" data-menu-open>
+  <span>Menú</span>
+  <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>
+</button>
+
+<div class="menu" id="site-menu" hidden data-menu>
+  <div class="menu-top">
+    <span class="menu-eyebrow">F&amp;N Agency · Cali</span>
+    <button class="menu-close" type="button" data-menu-close>Cerrar <span aria-hidden="true">✕</span></button>
+  </div>
+  <nav aria-label="Principal">
+    <ol>
+      {links.map((l, i) => (
+        <li style={`--c: ${l.color}`}>
+          <a href={l.href} aria-current={l.key === current ? 'page' : undefined} data-menu-link>
+            <span class="idx">{String(i + 1).padStart(2, '0')}</span>
+            <span class="label">{l.label}</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </nav>
+  <div class="menu-shapes" aria-hidden="true">
+    <i class="s1"></i><i class="s2"></i><i class="s3"></i><i class="s4"></i>
+  </div>
+</div>
+
+<script>
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+  const openBtn = document.querySelector<HTMLButtonElement>('[data-menu-open]');
+  const closeBtn = document.querySelector<HTMLButtonElement>('[data-menu-close]');
+
+  const setOpen = (open: boolean) => {
+    if (!menu || !openBtn) return;
+    menu.hidden = !open;
+    openBtn.setAttribute('aria-expanded', String(open));
+    document.documentElement.classList.toggle('menu-open', open);
+    window.dispatchEvent(new CustomEvent('site-menu', { detail: { open } }));
+    if (open) closeBtn?.focus();
+    else openBtn.focus();
+  };
+
+  openBtn?.addEventListener('click', () => setOpen(true));
+  closeBtn?.addEventListener('click', () => setOpen(false));
+  menu?.querySelectorAll('[data-menu-link]').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && menu && !menu.hidden) setOpen(false);
+  });
+</script>
+
+<style>
+  .menu-btn {
+    display: inline-flex; align-items: center; gap: 12px; min-height: 44px; padding: 0 4px 0 16px;
+    background: transparent; border: 0; cursor: pointer; color: inherit;
+    font: 600 1rem "Figtree", system-ui, sans-serif;
+  }
+  .bars { display: grid; gap: 5px; width: 26px; }
+  .bars i { display: block; height: 2px; background: currentColor; border-radius: 2px; transition: transform .25s ease; }
+  .bars i:nth-child(2) { width: 70%; justify-self: end; }
+  .menu-btn:hover .bars i:nth-child(2) { transform: scaleX(1.43); transform-origin: right; }
+
+  .menu {
+    position: fixed; inset: 0; z-index: 100; background: #0B0B0B; color: #FFFFFF;
+    display: flex; flex-direction: column; overflow: hidden auto;
+    padding: max(20px, env(safe-area-inset-top, 0px)) max(20px, env(safe-area-inset-right, 0px)) max(24px, env(safe-area-inset-bottom, 0px)) max(20px, env(safe-area-inset-left, 0px));
+  }
+  .menu-top { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .menu-eyebrow { font: 500 .78rem "DM Mono", ui-monospace, monospace; letter-spacing: .14em; text-transform: uppercase; color: #BDBDBD; }
+  .menu-close {
+    min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1.5px solid #FFFFFF; background: transparent; color: #FFFFFF;
+    font: 600 1rem "Figtree", system-ui, sans-serif; cursor: pointer; display: inline-flex; gap: 10px; align-items: center;
+  }
+  nav { flex: 1; display: flex; align-items: center; position: relative; z-index: 1; }
+  ol { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(2px, 1vh, 10px); }
+  li a {
+    display: inline-flex; align-items: baseline; gap: 18px; text-decoration: none; color: #FFFFFF;
+    font: 800 clamp(2.4rem, 8.5vh, 6.4rem)/1 "Bricolage Grotesque", system-ui, sans-serif; letter-spacing: -0.04em;
+    transition: color .2s ease, transform .3s cubic-bezier(.2,.8,.2,1);
+  }
+  li a:hover, li a:focus-visible, li a[aria-current="page"] { color: var(--c); transform: translateX(14px); }
+  .idx { font: 500 .9rem "DM Mono", ui-monospace, monospace; letter-spacing: .1em; color: #8A8A8A; }
+  .menu-shapes { position: absolute; right: -6vmin; bottom: -6vmin; width: 46vmin; aspect-ratio: 1; display: grid; grid-template-columns: 1fr 1fr; pointer-events: none; }
+  .menu-shapes i { display: block; }
+  .s1 { background: #FFC21A; border-radius: 100% 0 0 0; }
+  .s2 { background: #2F5BFF; border-radius: 50%; }
+  .s3 { background: #FF4D2E; border-radius: 0 0 0 100%; }
+  .s4 { background: #1FC99A; border-radius: 0 100% 0 100%; }
+  :global(html.menu-open) { overflow: hidden; }
+
+  @media (prefers-reduced-motion: reduce) {
+    li a, .bars i { transition: none; }
+  }
+</style>
