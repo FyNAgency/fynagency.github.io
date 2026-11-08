@@ -1,0 +1,39 @@
+---
+import ContactForm from '../ContactForm.astro';
+import Mosaic, { type Tile } from './Mosaic.astro';
+import { contacto } from '../../data/agencia';
+
+const tiles: Tile[] = [
+  { shape: 'circle', color: '#FFC21A' },
+  { shape: 'quarter', color: '#2F5BFF', rot: 90 },
+  { shape: 'leaf', color: '#FF4D2E' },
+  { shape: 'half', color: '#1FC99A', rot: 180 },
+];
+---
+
+<section class="lead" id="formulario" aria-labelledby="lead-title">
+  <div class="wrap grid">
+    <div class="intro">
+      <span class="eyebrow" data-fade>Formulario</span>
+      <h2 id="lead-title" data-split>Tu negocio puede<br />ser el próximo caso.</h2>
+      <p data-fade>Déjanos tus datos y te contactamos para contarte qué paquete le sirve a tu negocio. Sin compromiso.</p>
+      <p class="direct" data-fade>¿Prefieres escribir ya? WhatsApp <b>{contacto.telefonoVisible}</b></p>
+      <Mosaic tiles={tiles} cols={4} class="lead-mosaic" />
+    </div>
+    <ContactForm idPrefix="home" />
+  </div>
+</section>
+
+<style>
+  .lead { padding-block: clamp(72px, 10vw, 140px); background: #FFF4D6; }
+  .grid { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(28px, 5vw, 80px); align-items: start; }
+  .intro { display: grid; gap: 22px; justify-items: start; min-width: 0; position: sticky; top: 110px; }
+  h2 { font-size: clamp(2.4rem, 5.2vw, 5rem); }
+  .intro p { color: var(--muted); max-width: 40ch; font-size: 1.08rem; }
+  .intro .direct { color: var(--ink); }
+  .intro :global(.lead-mosaic) { width: min(300px, 70%); margin-top: 8px; }
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+    .intro { position: static; }
+  }
+</style>

@@ -1,0 +1,38 @@
+---
+import { testimonios } from '../../data/agencia';
+
+// Only quotes the client has approved are published.
+const aprobados = testimonios.filter((t) => t.aprobado);
+const colores = ['#FFC21A', '#2F5BFF', '#FF9FCB', '#1FC99A'];
+---
+
+{aprobados.length > 0 && (
+  <section class="testimonials" aria-labelledby="testimonios-title">
+    <div class="wrap head">
+      <span class="eyebrow" data-fade>Testimonios</span>
+      <h2 id="testimonios-title" data-split>Lo que dicen<br />nuestros clientes.</h2>
+    </div>
+    <div class="wrap grid">
+      {aprobados.map((t, i) => (
+        <figure class="quote" style={`--c: ${colores[i % colores.length]}`} data-term>
+          <blockquote>“{t.texto}”</blockquote>
+          <figcaption><b>{t.nombre}</b><span>{t.negocio}</span></figcaption>
+        </figure>
+      ))}
+    </div>
+  </section>
+)}
+
+<style>
+  .testimonials { padding-block: clamp(64px, 9vw, 120px); }
+  .head { display: grid; gap: 18px; margin-bottom: clamp(32px, 4vw, 56px); }
+  h2 { font-size: clamp(2.4rem, 5.6vw, 5.4rem); }
+  .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+  .quote { margin: 0; background: var(--c); border-radius: 28px; padding: clamp(24px, 2.8vw, 36px); display: grid; gap: 22px; align-content: space-between; min-width: 0; }
+  blockquote { margin: 0; font: 700 clamp(1.2rem, 1.7vw, 1.5rem)/1.3 var(--font-display); letter-spacing: -0.02em; }
+  figcaption { display: grid; gap: 2px; }
+  figcaption span { font: 500 .72rem var(--font-mono); letter-spacing: .1em; text-transform: uppercase; }
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>

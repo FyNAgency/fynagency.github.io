@@ -4,29 +4,35 @@ import '../styles/home.css';
 import HomeHeader from '../components/home/HomeHeader.astro';
 import HomeHero from '../components/home/HomeHero.astro';
 import Marquee from '../components/home/Marquee.astro';
-import Services from '../components/home/Services.astro';
-import Reel from '../components/home/Reel.astro';
 import Numbers from '../components/home/Numbers.astro';
-import Process from '../components/home/Process.astro';
+import Services from '../components/home/Services.astro';
+import Clients from '../components/home/Clients.astro';
+import Reel from '../components/home/Reel.astro';
+import Testimonials from '../components/home/Testimonials.astro';
+import Packages from '../components/home/Packages.astro';
 import Fabio from '../components/home/Fabio.astro';
+import LeadForm from '../components/home/LeadForm.astro';
 import Contact from '../components/home/Contact.astro';
 import HomeFooter from '../components/home/HomeFooter.astro';
 ---
 
 <Layout
-  title="F&N Agency · Contenido que mueve tu negocio"
-  description="Agencia de contenido en Cali. Estrategia, grabación, edición y publicación de reels para restaurantes y negocios locales."
-  shareDescription="Estrategia, grabación, edición y publicación de reels para tu negocio en Cali."
+  title="F&N Agency · Impulsamos tu negocio en redes sociales"
+  description="Agencia de redes sociales en Cali. Impulsamos tu negocio a salir del anonimato con estrategia de redes, sitios web, animación y logos."
+  shareDescription="Impulsamos tu negocio a salir del anonimato en redes sociales. +7 millones de visualizaciones en 30 días para nuestros clientes."
 >
   <HomeHeader />
   <main>
     <HomeHero />
     <Marquee />
-    <Services />
-    <Reel />
     <Numbers />
-    <Process />
-    <Fabio />
+    <Services />
+    <Clients />
+    <Reel />
+    <Testimonials />
+    <Packages />
+    <Fabio ctaHref="/contacto?interes=Video%20con%20Fabio%20Parra" ctaLabel="Lo quiero" />
+    <LeadForm />
     <Contact />
   </main>
   <HomeFooter />

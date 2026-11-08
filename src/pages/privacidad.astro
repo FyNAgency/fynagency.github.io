@@ -1,0 +1,44 @@
+---
+import Layout from '../layouts/Layout.astro';
+import '../styles/home.css';
+import HomeHeader from '../components/home/HomeHeader.astro';
+import HomeFooter from '../components/home/HomeFooter.astro';
+import { contacto } from '../data/agencia';
+---
+
+<Layout
+  title="Política de privacidad · F&N Agency"
+  description="Cómo F&N Agency trata los datos personales que recibe a través de su sitio web."
+  shareDescription="Política de tratamiento de datos personales de F&N Agency."
+>
+  <HomeHeader current="contacto" />
+  <main class="legal wrap">
+    <span class="eyebrow">Legal</span>
+    <h1>Política de privacidad</h1>
+    <p class="updated">Última actualización: noviembre de 2026</p>
+
+    <h2>Quién trata tus datos</h2>
+    <p>F&amp;N Agency, agencia de redes sociales con sede en Cali, Colombia. Puedes escribirnos por WhatsApp al {contacto.telefonoVisible}.</p>
+
+    <h2>Qué datos recogemos</h2>
+    <p>Los que escribes en el formulario de contacto: nombre, nombre del negocio, número de WhatsApp, correo, ciudad, redes sociales del negocio, el servicio que te interesa y tu mensaje. El sitio también usa Google Analytics, a través de Google Tag Manager, para medir visitas de forma agregada.</p>
+
+    <h2>Para qué los usamos</h2>
+    <p>Solo para responderte, enviarte información de nuestros servicios y preparar una propuesta para tu negocio. No vendemos ni compartimos tus datos con terceros para fines comerciales.</p>
+
+    <h2>Tus derechos</h2>
+    <p>De acuerdo con la Ley 1581 de 2012, puedes conocer, actualizar, corregir o pedir que eliminemos tus datos en cualquier momento. Escríbenos por WhatsApp y lo hacemos.</p>
+
+    <h2>Cuánto tiempo los guardamos</h2>
+    <p>Mientras exista una relación comercial o hasta que nos pidas eliminarlos.</p>
+  </main>
+  <HomeFooter />
+</Layout>
+
+<style>
+  .legal { padding-top: 130px; padding-bottom: clamp(72px, 10vw, 120px); max-width: 860px; margin: 0 auto; display: grid; gap: 14px; }
+  h1 { font-size: clamp(2.6rem, 6vw, 5rem); margin-top: 12px; }
+  .updated { color: var(--muted); margin-bottom: 18px; }
+  h2 { font-size: clamp(1.4rem, 2.2vw, 1.9rem); letter-spacing: -0.02em; margin-top: 22px; }
+  p { max-width: 68ch; }
+</style>

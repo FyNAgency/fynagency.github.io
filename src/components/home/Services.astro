@@ -1,44 +1,19 @@
 ---
 import Mosaic, { type Tile } from './Mosaic.astro';
+import { servicios as datos } from '../../data/agencia';
 
-const servicios: { titulo: string; texto: string; color: string; tiles: Tile[] }[] = [
-  {
-    titulo: 'Estrategia de contenido',
-    texto: 'Estudiamos tu nicho y definimos qué contar para que la cuenta crezca y tu marca gane autoridad.',
-    color: '#FFC21A',
-    tiles: [{ shape: 'quarter', color: '#0B0B0B', bg: '#FFC21A' }, { shape: 'dot', color: '#FFC21A', bg: '#0B0B0B' }],
-  },
-  {
-    titulo: 'Grabación en tu local',
-    texto: 'Vamos a tu negocio varias veces al mes y grabamos todo con enfoque estratégico.',
-    color: '#2F5BFF',
-    tiles: [{ shape: 'circle', color: '#2F5BFF' }, { shape: 'half', color: '#FF9FCB', bg: '#2F5BFF', rot: 180 }],
-  },
-  {
-    titulo: 'Edición de reels',
-    texto: 'Cortes, textos y ritmo pensados para retener al espectador desde el primer segundo.',
-    color: '#FF4D2E',
-    tiles: [{ shape: 'leaf', color: '#FF4D2E' }, { shape: 'ring', color: '#0B0B0B', bg: '#FF4D2E' }],
-  },
-  {
-    titulo: 'Publicación',
-    texto: 'Publicamos cada video en Instagram y TikTok con el formato y la descripción correctos.',
-    color: '#1FC99A',
-    tiles: [{ shape: 'half', color: '#1FC99A', rot: 90 }, { shape: 'quarter', color: '#FFC21A', bg: '#1FC99A', rot: 180 }],
-  },
-  {
-    titulo: 'Recomendación con Fabio Parra',
-    texto: 'Un video con @Fabio Parra para llevar tu marca a su público y atraer más gente a tu local.',
-    color: '#FF9FCB',
-    tiles: [{ shape: 'circle', color: '#FF9FCB', bg: '#0B0B0B' }, { shape: 'leaf', color: '#2F5BFF', rot: 90 }],
-  },
+const tiles: Tile[][] = [
+  [{ shape: 'quarter', color: '#0B0B0B', bg: '#FFC21A' }, { shape: 'dot', color: '#FFC21A', bg: '#0B0B0B' }],
+  [{ shape: 'circle', color: '#2F5BFF' }, { shape: 'half', color: '#FF9FCB', bg: '#2F5BFF', rot: 180 }],
+  [{ shape: 'leaf', color: '#FF4D2E' }, { shape: 'ring', color: '#0B0B0B', bg: '#FF4D2E' }],
 ];
+const servicios = datos.map((d, i) => ({ ...d, tiles: tiles[i % tiles.length] }));
 ---
 
 <section class="services" id="servicios">
   <div class="wrap head">
     <span class="eyebrow" data-fade>Servicios</span>
-    <h2 data-split>Todo lo que tu marca<br />necesita para verse.</h2>
+    <h2 data-split>Todo lo que tu marca<br />necesita para crecer.</h2>
   </div>
   <ol class="list">
     {servicios.map((s, i) => (

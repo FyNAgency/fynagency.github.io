@@ -1,30 +1,32 @@
 ---
 import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import videoSopa from '../../assets/video-sopa.jpg';
 import videoBurger from '../../assets/video-burger.jpg';
-import videoGranos from '../../assets/video-granos.jpg';
-import igStats1 from '../../assets/ig-stats-1.jpg';
-import igStats2 from '../../assets/ig-stats-2.jpg';
-import tiktokStats from '../../assets/tiktok-stats.jpg';
+import { casos } from '../../data/agencia';
 
-const cards = [
-  { img: videoSopa, alt: 'Reel en un restaurante de sopas de Cali', valor: 1748617, etiqueta: 'reproducciones en Instagram', color: '#FFC21A', ink: '#0B0B0B' },
-  { img: igStats1, alt: 'Estadísticas de Instagram del reel de sopas: 222.271 cuentas alcanzadas y 2.997 seguidores', valor: 222271, etiqueta: 'cuentas alcanzadas', color: '#2F5BFF', ink: '#FFFFFF' },
-  { img: videoBurger, alt: 'Reel en una hamburguesería de Cali', valor: 558230, etiqueta: 'reproducciones en Instagram', color: '#FF4D2E', ink: '#0B0B0B' },
-  { img: igStats2, alt: 'Estadísticas de Instagram del reel de hamburguesas: 41.129 espectadores y 2.023 seguidores', valor: 2023, etiqueta: 'seguidores nuevos', color: '#1FC99A', ink: '#0B0B0B' },
-  { img: videoGranos, alt: 'Video en un local de granos publicado en TikTok', valor: 85900, etiqueta: 'visualizaciones en TikTok', color: '#FF9FCB', ink: '#0B0B0B' },
-  { img: tiktokStats, alt: 'Estadísticas de TikTok Studio: 295 horas de reproducción y 1,1 K seguidores nuevos', valor: 295, etiqueta: 'horas de reproducción', color: '#0B0B0B', ink: '#FFFFFF' },
+type Card = { img: ImageMetadata; alt: string; valor: string; etiqueta: string; color: string; ink: string; logo?: ImageMetadata; nombre?: string };
+
+const [bufalo, totumazo, vallenato, salsa] = casos;
+const deCaso = (c: (typeof casos)[number], ink = '#0B0B0B'): Card => ({
+  img: c.grid, alt: c.gridAlt, valor: c.destacado.valor, etiqueta: c.destacado.texto, color: c.color, ink, logo: c.logo, nombre: c.nombre,
+});
+const cards: Card[] = [
+  deCaso(bufalo),
+  { img: videoBurger, alt: 'Reel de Búfalo Burguer con 558 mil reproducciones', valor: '558 mil', etiqueta: 'reproducciones en un solo reel', color: '#0B0B0B', ink: '#FFFFFF' },
+  deCaso(totumazo),
+  { img: videoSopa, alt: 'Reel de El Totumazo con 1,7 millones de reproducciones', valor: '1,7 M', etiqueta: 'reproducciones en un solo reel', color: '#FF9FCB', ink: '#0B0B0B' },
+  deCaso(vallenato, '#FFFFFF'),
+  deCaso(salsa),
 ];
-
-const fmt = (n: number) => n.toLocaleString('es-CO');
 ---
 
 <section class="reel" id="resultados" data-reel>
   <div class="pin" data-reel-pin>
     <div class="wrap intro">
-      <span class="eyebrow">Resultados reales</span>
+      <span class="eyebrow">Casos de éxito</span>
       <h2>Videos que <br />la gente <br /><em>sí</em> ve.</h2>
-      <p>Métricas tomadas de Instagram y TikTok, de negocios para los que grabamos.</p>
+      <p>Resultados reales en Instagram y TikTok de los negocios que impulsamos.</p>
     </div>
     <div class="viewport" data-reel-viewport>
     <div class="track" data-reel-track>
@@ -32,7 +34,13 @@ const fmt = (n: number) => n.toLocaleString('es-CO');
         <article class="card" style={`--c: ${c.color}; --on: ${c.ink}`}>
           <div class="shot"><Image src={c.img} alt={c.alt} width={420} /></div>
           <div class="meta">
-            <b class="num" data-count={c.valor}>{fmt(c.valor)}</b>
+            {c.logo && (
+              <div class="who">
+                <Image src={c.logo} alt="" width={64} />
+                <span>{c.nombre}</span>
+              </div>
+            )}
+            <b class="num">{c.valor}</b>
             <span>{c.etiqueta}</span>
           </div>
         </article>
@@ -62,7 +70,10 @@ const fmt = (n: number) => n.toLocaleString('es-CO');
   .shot :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: top; }
   .meta { display: grid; gap: 4px; padding-inline: 6px; }
   .num { font: 800 clamp(1.9rem, 2.6vw, 2.5rem)/1 var(--font-display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
-  .meta span { font: 500 .78rem var(--font-mono); letter-spacing: .08em; text-transform: uppercase; opacity: .85; }
+  .meta > span { font: 500 .78rem var(--font-mono); letter-spacing: .08em; text-transform: uppercase; opacity: .85; }
+  .who { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .who :global(img) { width: 28px; height: 28px; border-radius: 50%; }
+  .who span { font-weight: 700; font-size: .95rem; }
 
   @media (max-width: 900px) {
     .reel { padding-top: 24px; }

@@ -185,6 +185,11 @@ if (!reduced) {
     if (b) countUp(b, { trigger: cell });
   });
 
+  /* ---------- client logos ---------- */
+  gsap.utils.toArray<HTMLElement>('[data-client]').forEach((logo, i) => {
+    gsap.from(logo, { y: 60, scale: 0.6, rotate: i % 2 ? 12 : -12, opacity: 0, duration: 0.9, ease: 'back.out(1.6)', delay: i * 0.1, scrollTrigger: { trigger: logo, start: 'top 90%' } });
+  });
+
   /* ---------- packages and payment terms ---------- */
   gsap.utils.toArray<HTMLElement>('[data-package], [data-term]').forEach((card, i) => {
     gsap.from(card, { y: 70, rotate: i % 2 ? 2 : -2, opacity: 0, duration: 0.9, ease: 'power3.out', delay: (i % 3) * 0.08, scrollTrigger: { trigger: card, start: 'top 90%' } });
