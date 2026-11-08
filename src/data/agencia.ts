@@ -123,24 +123,33 @@ export const totales = [
 ];
 
 /* ---------- testimonios ---------- */
-// Borradores para que cada cliente los apruebe. Solo se muestran los que tengan aprobado: true.
-export const testimonios: { texto: string; nombre: string; negocio: string; aprobado: boolean }[] = [
+// Pegar aquí el enlace de la ficha de Google cuando exista; mientras esté vacío no se muestra ningún botón.
+export const googleResenas = '';
+
+export type Testimonio = { texto: string; nombre: string; negocio: string; enlace: string; aprobado: boolean };
+
+// Borradores para que cada cliente los confirme. Solo se publican los que tengan aprobado: true,
+// y cada "enlace" debe apuntar a la reseña real en Google.
+export const testimonios: Testimonio[] = [
   {
     texto: 'Desde que F&N maneja nuestras redes, la gente llega al local diciendo que nos vio en un reel.',
     nombre: 'Equipo de El Totumazo',
     negocio: 'El Totumazo',
+    enlace: '',
     aprobado: false,
   },
   {
     texto: 'Se encargan de todo: vienen, graban, editan y publican. Nosotros solo atendemos a la gente que llega.',
     nombre: 'Equipo de Búfalo Burguer',
     negocio: 'Búfalo Burguer',
+    enlace: '',
     aprobado: false,
   },
   {
     texto: 'Nuestros videos empezaron a llegar a gente que no nos conocía. Se nota en las reservas del fin de semana.',
     nombre: 'Equipo de Salsa, Río y Sol',
     negocio: 'Salsa, Río y Sol',
+    enlace: '',
     aprobado: false,
   },
 ];

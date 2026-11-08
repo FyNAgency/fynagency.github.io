@@ -1,0 +1,77 @@
+---
+import { Image } from 'astro:assets';
+import bufaloIg from '../../assets/perfiles/bufalo-ig.jpg';
+import bufaloTt from '../../assets/perfiles/bufalo-tt.jpg';
+import totumazoIg from '../../assets/perfiles/totumazo-ig.jpg';
+import totumazoTt from '../../assets/perfiles/totumazo-tt.jpg';
+import salsaIg from '../../assets/perfiles/salsa-ig.jpg';
+import salsaTt from '../../assets/perfiles/salsa-tt.jpg';
+import vallenatoTt from '../../assets/perfiles/vallenato-tt.jpg';
+
+const columnas = [
+  {
+    velocidad: '-0.05',
+    capturas: [
+      { img: bufaloIg, alt: 'Perfil de Instagram de Búfalo Burguer: 36,7 mil seguidores y 4,4 millones de visualizaciones en 30 días' },
+      { img: totumazoTt, alt: 'Perfil de TikTok de El Totumazo: 49,3 mil seguidores y 436,9 mil me gusta' },
+      { img: salsaTt, alt: 'Perfil de TikTok de Salsa, Río y Sol: 15,8 mil seguidores y 80,3 mil me gusta' },
+    ],
+  },
+  {
+    velocidad: '0.05',
+    intro: true,
+    capturas: [
+      { img: vallenatoTt, alt: 'Perfil de TikTok de La Calle del Vallenato: 132,4 mil seguidores y 1 millón de me gusta' },
+      { img: salsaIg, alt: 'Perfil de Instagram de Salsa, Río y Sol: 13,2 mil seguidores y 1,0 millones de visualizaciones en 30 días' },
+    ],
+  },
+  {
+    velocidad: '-0.03',
+    capturas: [
+      { img: totumazoIg, alt: 'Perfil de Instagram de El Totumazo: 47,5 mil seguidores y 2,0 millones de visualizaciones en 30 días' },
+      { img: bufaloTt, alt: 'Perfil de TikTok de Búfalo Burguer: 56,4 mil seguidores y 1,1 millones de me gusta' },
+    ],
+  },
+];
+---
+
+<section class="wall" id="perfiles" aria-labelledby="perfiles-title">
+  <div class="wrap columns">
+    {columnas.map((col) => (
+      <div class="col" data-parallax={col.velocidad}>
+        {col.intro && (
+          <div class="intro shot">
+            <span class="eyebrow">Sin filtros</span>
+            <h2 id="perfiles-title">Míralo en sus perfiles.</h2>
+            <p>Capturas reales de las cuentas de nuestros clientes en Instagram y TikTok.</p>
+          </div>
+        )}
+        {col.capturas.map((c) => (
+          <figure class="shot" data-fade>
+            <Image src={c.img} alt={c.alt} width={820} />
+          </figure>
+        ))}
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .wall { padding-block: clamp(80px, 11vw, 160px); background: var(--ink); overflow-x: clip; }
+  .columns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(14px, 1.6vw, 22px); align-items: start; }
+  .col { display: grid; gap: clamp(14px, 1.6vw, 22px); min-width: 0; }
+  .col:nth-child(2) { margin-top: clamp(30px, 5vw, 80px); }
+  .shot { margin: 0; border-radius: 22px; overflow: hidden; background: #FFFFFF; }
+  .shot :global(img) { width: 100%; height: auto; }
+  .intro { background: var(--yellow); color: var(--ink); padding: clamp(24px, 2.8vw, 38px); display: grid; gap: 14px; }
+  .intro .eyebrow { color: var(--ink); }
+  h2 { font-size: clamp(2.2rem, 3.8vw, 3.8rem); }
+
+  /* Phone: one column; each capture slides up and stacks over the previous one */
+  @media (max-width: 760px) {
+    .columns { display: flex; flex-direction: column; gap: 22px; }
+    .col { display: contents; }
+    .col:nth-child(2) .intro { order: -1; }
+    .shot { position: sticky; top: 84px; box-shadow: 0 -16px 36px -18px rgba(0, 0, 0, .7); }
+  }
+</style>

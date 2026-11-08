@@ -5,6 +5,7 @@ import '../styles/home.css';
 import HomeHeader from '../components/home/HomeHeader.astro';
 import HomeFooter from '../components/home/HomeFooter.astro';
 import Mosaic, { type Tile } from '../components/home/Mosaic.astro';
+import ProfileWall from '../components/home/ProfileWall.astro';
 import videoSopa from '../assets/video-sopa.jpg';
 import videoBurger from '../assets/video-burger.jpg';
 import { casos } from '../data/agencia';
@@ -92,6 +93,8 @@ const tiles: Tile[] = [
         </div>
       </section>
     ))}
+
+    <ProfileWall />
 
     <section class="cta">
       <div class="wrap cta-inner">
