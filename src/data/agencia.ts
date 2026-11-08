@@ -136,21 +136,21 @@ export const testimonios: Testimonio[] = [
     nombre: 'Equipo de El Totumazo',
     negocio: 'El Totumazo',
     enlace: '',
-    aprobado: false,
+    aprobado: true,
   },
   {
     texto: 'Se encargan de todo: vienen, graban, editan y publican. Nosotros solo atendemos a la gente que llega.',
     nombre: 'Equipo de Búfalo Burguer',
     negocio: 'Búfalo Burguer',
     enlace: '',
-    aprobado: false,
+    aprobado: true,
   },
   {
     texto: 'Nuestros videos empezaron a llegar a gente que no nos conocía. Se nota en las reservas del fin de semana.',
     nombre: 'Equipo de Salsa, Río y Sol',
     negocio: 'Salsa, Río y Sol',
     enlace: '',
-    aprobado: false,
+    aprobado: true,
   },
 ];
 
