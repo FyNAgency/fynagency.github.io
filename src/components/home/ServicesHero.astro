@@ -1,0 +1,288 @@
+---
+import { Image } from 'astro:assets';
+import { servicios } from '../../data/agencia';
+import gridTotumazo from '../../assets/casos/totumazo-grid.jpg';
+import gridSalsa from '../../assets/casos/salsa-grid.jpg';
+import videoBurger from '../../assets/video-burger.jpg';
+import sitioEscritorio from '../../assets/servicios/sitio-escritorio.jpg';
+import sitioMovil from '../../assets/servicios/sitio-movil.jpg';
+import logoFn from '../../assets/servicios/logo-fn.jpg';
+import portada2x1 from '../../assets/servicios/portada-2x1.jpg';
+import portadaLocalidad from '../../assets/servicios/portada-localidad.jpg';
+import portadaTotumazo from '../../assets/servicios/portada-totumazo.jpg';
+
+const extra = [
+  { tab: 'Redes sociales', on: '#0B0B0B', cta: 'Ver paquetes', href: '#paquetes', arte: 'social' },
+  { tab: 'Sitio web', on: '#FFFFFF', cta: 'Quiero mi sitio web', href: `/contacto?interes=${encodeURIComponent('Desarrollo de sitio web')}`, arte: 'web' },
+  { tab: 'Animación', on: '#0B0B0B', cta: 'Cotizar mi diseño', href: `/contacto?interes=${encodeURIComponent('Animación, logo o diseño')}`, arte: 'design' },
+];
+const slides = servicios.map((s, i) => ({ ...s, ...extra[i] }));
+---
+
+<section class="slider" aria-roledescription="carrusel" aria-label="Servicios de F&N Agency" data-slider>
+  <h1 class="sr">Servicios de F&N Agency</h1>
+  <div class="frame" style={`--c: ${slides[0].color}; --on: ${slides[0].on}`} data-frame>
+    <div class="slides">
+      {slides.map((s, i) => (
+        <article class:list={['slide', { on: i === 0 }]} style={`--c: ${s.color}; --on: ${s.on}`} aria-roledescription="diapositiva" aria-label={`${i + 1} de ${slides.length}`} data-slide data-on={s.on} data-c={s.color}>
+          <div class="copy">
+            <span class="eye item" style="--d: .1s">Servicio {String(i + 1).padStart(2, '0')}</span>
+            <h2 class="item" style="--d: .18s">{s.titulo}</h2>
+            <p class="item" style="--d: .26s">{s.texto}</p>
+            <a class="cta item" style="--d: .34s" href={s.href}>{s.cta}</a>
+          </div>
+
+          <div class={`art ${s.arte}`}>
+            {s.arte === 'social' && (
+              <>
+                <figure class="phone back left item" style="--d: .34s; --r: -9deg"><Image src={gridTotumazo} alt="Reels de El Totumazo en Instagram" width={460} loading="eager" /></figure>
+                <figure class="phone back right item" style="--d: .42s; --r: 9deg"><Image src={gridSalsa} alt="Reels de Salsa, Río y Sol en Instagram" width={460} loading="eager" /></figure>
+                <figure class="phone front item" style="--d: .24s"><Image src={videoBurger} alt="Reel de Búfalo Burguer con 558 mil reproducciones" width={520} loading="eager" /></figure>
+              </>
+            )}
+            {s.arte === 'web' && (
+              <>
+                <figure class="browser item" style="--d: .24s; --r: -1.5deg">
+                  <div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>fynagency.co</span></div>
+                  <Image src={sitioEscritorio} alt="Página de inicio de fynagency.co en un computador" width={1100} />
+                </figure>
+                <figure class="mobile item" style="--d: .4s; --r: 3deg"><Image src={sitioMovil} alt="El mismo sitio visto en un celular" width={390} /></figure>
+              </>
+            )}
+            {s.arte === 'design' && (
+              <>
+                <i class="shape circle item" style="--d: .5s" aria-hidden="true"></i>
+                <i class="shape quarter item" style="--d: .56s" aria-hidden="true"></i>
+                <figure class="logo item" style="--d: .24s; --r: -5deg"><Image src={logoFn} alt="Logo de F&N Agency" width={600} /></figure>
+                <figure class="cover c1 item" style="--d: .34s; --r: 5deg"><Image src={portadaTotumazo} alt="Portada de reel con el título Totumazo" width={243} /></figure>
+                <figure class="cover c2 item" style="--d: .42s; --r: -6deg"><Image src={portada2x1} alt="Portada de reel de Búfalo Burguer: 2x1 doble carne" width={243} /></figure>
+                <figure class="cover c3 item" style="--d: .5s; --r: 4deg"><Image src={portadaLocalidad} alt="Portada de video de La Calle del Vallenato: nueva localidad" width={244} /></figure>
+              </>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="controls" data-controls>
+      <div class="tabs">
+        {slides.map((s, i) => (
+          <button type="button" class="tab" aria-current={i === 0 ? 'true' : undefined} aria-label={`Ver ${s.titulo}`} data-tab={i}>
+            <span class="label"><b>{String(i + 1).padStart(2, '0')}</b> {s.tab}</span>
+            <span class="track" aria-hidden="true"><span class="fill"></span></span>
+          </button>
+        ))}
+      </div>
+      <div class="buttons">
+        <button type="button" class="round" aria-label="Pausar" data-pause>
+          <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" /><rect x="14" y="5" width="4" height="14" /></svg>
+          <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
+        </button>
+        <button type="button" class="round arrow" aria-label="Servicio anterior" data-prev>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.5" /></svg>
+        </button>
+        <button type="button" class="round arrow" aria-label="Servicio siguiente" data-next>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.5" /></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+<script is:inline>
+  (function (s) {
+    s.classList.add('ready', 'pre');
+    setTimeout(function () { s.classList.remove('pre'); }, 120);
+  })(document.currentScript.previousElementSibling);
+</script>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-slider]');
+  if (root) {
+    const frame = root.querySelector<HTMLElement>('[data-frame]')!;
+    const slides = [...root.querySelectorAll<HTMLElement>('[data-slide]')];
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[data-tab]')];
+    const pauseBtn = root.querySelector<HTMLButtonElement>('[data-pause]')!;
+    let current = 0;
+    let byUser = false;
+    let focused = false;
+    let offscreen = false;
+
+    slides.forEach((s, i) => { s.inert = i !== 0; });
+
+    const syncPause = () => {
+      root.classList.toggle('paused', byUser || focused || offscreen);
+      root.classList.toggle('stopped', byUser);
+      pauseBtn.setAttribute('aria-label', byUser ? 'Reproducir' : 'Pausar');
+    };
+
+    const go = (next: number) => {
+      const target = (next + slides.length) % slides.length;
+      if (target === current) return;
+      slides.forEach((s) => s.classList.remove('prev'));
+      slides[current].classList.replace('on', 'prev');
+      slides[current].inert = true;
+      slides[target].classList.add('on');
+      slides[target].inert = false;
+      tabs[current].removeAttribute('aria-current');
+      tabs[target].setAttribute('aria-current', 'true');
+      frame.style.setProperty('--on', slides[target].dataset.on!);
+      frame.style.setProperty('--c', slides[target].dataset.c!);
+      current = target;
+    };
+
+    tabs.forEach((t, i) => t.addEventListener('click', () => go(i)));
+    root.querySelector('[data-prev]')!.addEventListener('click', () => go(current - 1));
+    root.querySelector('[data-next]')!.addEventListener('click', () => go(current + 1));
+    pauseBtn.addEventListener('click', () => { byUser = !byUser; syncPause(); });
+
+    // the progress bar of the active tab is the timer, so pausing it pauses the slider
+    root.addEventListener('animationend', (e) => {
+      if ((e.target as Element).classList.contains('fill')) go(current + 1);
+    });
+
+    root.querySelector('[data-controls]')!.addEventListener('keydown', (e) => {
+      const key = (e as KeyboardEvent).key;
+      if (key === 'ArrowLeft') go(current - 1);
+      if (key === 'ArrowRight') go(current + 1);
+    });
+
+    root.addEventListener('focusin', (e) => {
+      focused = (e.target as Element).matches(':focus-visible');
+      syncPause();
+    });
+    root.addEventListener('focusout', () => { focused = false; syncPause(); });
+
+    new IntersectionObserver(([entry]) => {
+      offscreen = !entry.isIntersecting;
+      syncPause();
+    }, { threshold: 0.2 }).observe(frame);
+
+    let startX = 0;
+    let startY = 0;
+    frame.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    }, { passive: true });
+    frame.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - startX;
+      const dy = e.changedTouches[0].clientY - startY;
+      if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy)) go(current + (dx < 0 ? 1 : -1));
+    }, { passive: true });
+  }
+</script>
+
+<style>
+  .sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+  .slider { padding: 96px clamp(10px, 1.6vw, 24px) 0; }
+  .frame { position: relative; background: var(--c); color: var(--on); border-radius: clamp(26px, 3vw, 44px); overflow: hidden; isolation: isolate; transition: color .4s ease; }
+  .slides { display: grid; }
+  .slide {
+    background: var(--c); color: var(--on);
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(20px, 3vw, 56px); align-items: center;
+    min-height: clamp(600px, calc(100svh - 112px), 860px);
+    padding: clamp(28px, 4vw, 64px) clamp(24px, 4.4vw, 76px) 112px;
+  }
+  .ready .slide { grid-area: 1 / 1; visibility: hidden; clip-path: circle(0 at var(--ox, 75%) var(--oy, 50%)); }
+  .ready .slide.prev { visibility: visible; z-index: 1; clip-path: circle(150% at var(--ox, 75%) var(--oy, 50%)); }
+  .ready .slide.on { visibility: visible; z-index: 2; clip-path: circle(150% at var(--ox, 75%) var(--oy, 50%)); transition: clip-path .9s cubic-bezier(.7, 0, .2, 1); }
+
+  .copy { display: grid; gap: clamp(16px, 1.8vw, 26px); justify-items: start; min-width: 0; }
+  .eye { font: 500 .78rem var(--font-mono); letter-spacing: .12em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 10px; }
+  .eye::before { content: ""; width: 28px; height: 2px; background: currentColor; }
+  h2 { font-size: clamp(2.7rem, 5.7vw, 6rem); line-height: .96; color: inherit; text-wrap: balance; }
+  .copy p { font-size: clamp(1.05rem, 1.4vw, 1.3rem); line-height: 1.45; max-width: 36ch; color: inherit; }
+  .cta { display: inline-flex; align-items: center; min-height: 54px; padding: 0 28px; border-radius: 999px; background: var(--on); color: var(--c); font-weight: 700; text-decoration: none; }
+  .cta:hover { box-shadow: 0 12px 26px -12px rgba(11, 11, 11, .7); }
+
+  /* every piece enters on its own, a beat after the colour wipe */
+  .item { transform: rotate(var(--r, 0deg)); transition: transform .8s cubic-bezier(.2, .9, .25, 1) var(--d, 0s), opacity .5s ease var(--d, 0s), box-shadow .25s ease; }
+  .ready .slide:not(.on) .item, .ready.pre .item { opacity: 0; transform: translateY(70px) rotate(calc(var(--r, 0deg) + 7deg)) scale(.92); transition: none; }
+  .ready .cta.item:hover { transform: translateY(-3px); transition: transform .2s ease, box-shadow .25s ease; }
+
+  .art { position: relative; height: clamp(340px, 62svh, 600px); min-width: 0; }
+  figure { margin: 0; }
+  .art :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+
+  .phone { position: absolute; top: 50%; left: 50%; height: 92%; aspect-ratio: 9 / 16; margin-top: 0; border: 7px solid #0B0B0B; border-radius: 28px; overflow: hidden; background: #0B0B0B; box-shadow: 0 30px 60px -26px rgba(11, 11, 11, .7); translate: -50% -50%; }
+  .phone.back { height: 78%; }
+  .phone.left { left: 22%; }
+  .phone.right { left: 78%; }
+  .phone.front { z-index: 2; }
+
+  .browser { position: absolute; left: 0; top: 7%; width: 88%; border-radius: 16px; overflow: hidden; background: #FFFFFF; box-shadow: 0 34px 70px -28px rgba(11, 11, 11, .75); }
+  .bar { display: flex; align-items: center; gap: 6px; height: 34px; padding-inline: 14px; background: #0B0B0B; }
+  .bar i { width: 9px; height: 9px; border-radius: 50%; background: #FFC21A; }
+  .bar i:nth-child(2) { background: #FF4D2E; }
+  .bar i:nth-child(3) { background: #1FC99A; }
+  .bar span { margin-left: 12px; padding: 3px 14px; border-radius: 999px; background: #2A2A2A; color: #FFFFFF; font: 500 .7rem var(--font-mono); }
+  .browser :global(img) { height: auto; }
+  .mobile { position: absolute; right: 0; bottom: 3%; width: 25%; aspect-ratio: 390 / 844; border: 6px solid #0B0B0B; border-radius: 26px; overflow: hidden; background: #0B0B0B; box-shadow: 0 30px 60px -24px rgba(11, 11, 11, .8); }
+
+  .logo, .cover { position: absolute; overflow: hidden; box-shadow: 0 30px 60px -26px rgba(11, 11, 11, .7); }
+  .logo { left: 2%; top: 22%; width: 46%; aspect-ratio: 1; border-radius: 30px; z-index: 2; }
+  .cover { aspect-ratio: 243 / 407; width: 25%; border-radius: 18px; }
+  .c1 { left: 41%; top: 0; }
+  .c2 { left: 72%; top: 12%; z-index: 2; }
+  .c3 { left: 50%; bottom: 0; z-index: 3; }
+  .shape { position: absolute; display: block; }
+  .circle { width: 15%; aspect-ratio: 1; left: 4%; top: 2%; border-radius: 50%; background: #FFC21A; }
+  .quarter { width: 19%; aspect-ratio: 1; right: 1%; bottom: 3%; background: #0B0B0B; border-radius: 100% 0 0 0; }
+  .slide.on .quarter { animation: turn 7s linear 1s infinite; }
+  .slide.on .circle { animation: bob 2.8s ease-in-out 1s infinite alternate; }
+  @keyframes turn { to { rotate: 360deg; } }
+  @keyframes bob { to { translate: 0 22px; } }
+
+  .controls { display: none; }
+  .ready .controls { position: absolute; z-index: 3; left: clamp(24px, 4.4vw, 76px); right: clamp(24px, 4.4vw, 76px); bottom: clamp(20px, 2.4vw, 34px); display: flex; align-items: center; justify-content: space-between; gap: 28px; color: var(--on); }
+  .tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 190px)); gap: 14px; flex: 1; min-width: 0; }
+  .tab { appearance: none; border: 0; padding: 8px 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; display: grid; gap: 8px; min-width: 0; min-height: 44px; }
+  .label { font: 500 .76rem var(--font-mono); letter-spacing: .05em; text-transform: uppercase; opacity: .86; }
+  .label b { font-weight: 500; margin-right: 4px; }
+  .tab:hover .label, .tab[aria-current] .label { opacity: 1; }
+  .track { display: block; height: 3px; background: color-mix(in srgb, currentColor 28%, transparent); overflow: hidden; }
+  .fill { display: block; height: 100%; background: currentColor; transform: scaleX(0); transform-origin: left; }
+  .tab[aria-current] .fill { animation: progress 6.5s linear forwards; }
+  .paused .tab[aria-current] .fill { animation-play-state: paused; }
+  @keyframes progress { to { transform: scaleX(1); } }
+
+  .buttons { display: flex; gap: 8px; flex: none; }
+  .round { width: 48px; height: 48px; border-radius: 50%; border: 2px solid currentColor; background: none; color: inherit; display: grid; place-items: center; cursor: pointer; transition: background .2s ease, color .2s ease; }
+  .round:hover { background: var(--on); color: var(--c); }
+  .round svg { width: 20px; height: 20px; fill: currentColor; }
+  .round.arrow svg path { fill: none; }
+  .i-play { display: none; }
+  .stopped .i-pause { display: none; }
+  .stopped .i-play { display: block; }
+  .tab:focus-visible, .round:focus-visible, .cta:focus-visible { outline: 3px solid var(--on); outline-offset: 3px; }
+
+  @media (max-width: 900px) {
+    .slider { padding-top: 84px; }
+    .slide { --ox: 50%; --oy: 26%; grid-template-columns: 1fr; align-content: start; align-items: start; min-height: 0; padding: 22px 20px 92px; gap: 24px; }
+    .art { order: -1; height: clamp(270px, 38svh, 400px); }
+    .art.social { margin-inline: auto; width: min(100%, 420px); }
+    .copy p { max-width: none; }
+    .round.arrow { display: none; }
+    .ready .controls { left: 20px; right: 20px; bottom: 16px; gap: 14px; }
+    .tabs { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .label { font-size: .68rem; letter-spacing: .02em; }
+    .label b { display: none; }
+    .round { width: 44px; height: 44px; }
+    .phone { border-width: 5px; border-radius: 20px; }
+    .logo { border-radius: 20px; }
+    .cover { border-radius: 12px; }
+    .browser { border-radius: 10px; }
+    .bar { height: 24px; }
+    .bar i { width: 7px; height: 7px; }
+    .bar span { font-size: .6rem; padding: 1px 10px; }
+    .mobile { border-width: 4px; border-radius: 16px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ready .slide.on, .item, .ready .slide:not(.on) .item { transition: none; }
+    .ready .slide:not(.on) .item, .ready.pre .item { opacity: 1; transform: rotate(var(--r, 0deg)); }
+    .slide.on .quarter, .slide.on .circle { animation: none; }
+    .tab[aria-current] .fill { animation: none; transform: scaleX(1); }
+    [data-pause] { display: none; }
+  }
+</style>
