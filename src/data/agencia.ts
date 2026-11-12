@@ -11,6 +11,7 @@ import gridVallenato from '../assets/casos/vallenato-grid.jpg';
 export const contacto = {
   whatsapp: '573182966428',
   telefonoVisible: '+57 318 296 6428',
+  correo: 'info@fynagency.co',
   mensajeBase: 'Hola F&N, vi su página y quiero impulsar mi negocio en redes sociales.',
 };
 

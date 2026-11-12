@@ -15,7 +15,7 @@ import { contacto, whatsappUrl } from '../../data/agencia';
       </a>
       <a class="btn btn-ghost-light" href="/servicios#paquetes">Ver paquetes</a>
     </div>
-    <p class="phone-line">{contacto.telefonoVisible}</p>
+    <p class="phone-line">{contacto.telefonoVisible} · <a href={`mailto:${contacto.correo}`}>{contacto.correo}</a></p>
   </div>
     <figure class="camera" aria-label="Ilustración de una cámara de video grabando">
       <svg viewBox="0 0 560 470" role="img" aria-hidden="true">
@@ -60,6 +60,8 @@ import { contacto, whatsappUrl } from '../../data/agencia';
   .btn-wa:hover { background: #FFFFFF; border-color: #FFFFFF; }
   .btn-ghost-light { background: transparent; color: #FFFFFF; border-color: #FFFFFF; }
   .btn-ghost-light:hover { background: #FFFFFF; color: var(--ink); }
+  .phone-line a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+  .phone-line a:hover { color: var(--yellow); }
   .phone-line { font: 500 1rem var(--font-mono); letter-spacing: .08em; color: #BDBDBD; user-select: all; }
   .layout { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: clamp(24px, 4vw, 64px); align-items: center; }
   .camera { margin: 0; min-width: 0; }
