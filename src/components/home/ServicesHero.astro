@@ -3,13 +3,11 @@ import { Image } from 'astro:assets';
 import { servicios } from '../../data/agencia';
 import gridTotumazo from '../../assets/casos/totumazo-grid.jpg';
 import gridSalsa from '../../assets/casos/salsa-grid.jpg';
-import videoBurger from '../../assets/video-burger.jpg';
 import sitioEscritorio from '../../assets/servicios/sitio-escritorio.jpg';
 import sitioMovil from '../../assets/servicios/sitio-movil.jpg';
-import logoFn from '../../assets/servicios/logo-fn.jpg';
-import portada2x1 from '../../assets/servicios/portada-2x1.jpg';
-import portadaLocalidad from '../../assets/servicios/portada-localidad.jpg';
-import portadaTotumazo from '../../assets/servicios/portada-totumazo.jpg';
+import logoNaturalBless from '../../assets/servicios/logo-natural-bless.png';
+import logoSouthStreet from '../../assets/servicios/logo-south-street-lofts.png';
+import logoPuebloDominican from '../../assets/servicios/logo-pueblo-dominican.png';
 
 const extra = [
   { tab: 'Redes sociales', on: '#0B0B0B', cta: 'Ver paquetes', href: '#paquetes', arte: 'social' },
@@ -37,7 +35,9 @@ const slides = servicios.map((s, i) => ({ ...s, ...extra[i] }));
               <>
                 <figure class="phone back left item" style="--d: .34s; --r: -9deg"><Image src={gridTotumazo} alt="Reels de El Totumazo en Instagram" width={460} loading="eager" /></figure>
                 <figure class="phone back right item" style="--d: .42s; --r: 9deg"><Image src={gridSalsa} alt="Reels de Salsa, Río y Sol en Instagram" width={460} loading="eager" /></figure>
-                <figure class="phone front item" style="--d: .24s"><Image src={videoBurger} alt="Reel de Búfalo Burguer con 558 mil reproducciones" width={520} loading="eager" /></figure>
+                <figure class="phone front item" style="--d: .24s">
+                  <video src="/media/redes-sociales-flare.mp4" poster="/media/redes-sociales-flare.jpg" muted loop playsinline preload="metadata" aria-label="Dos ejemplos de videos para redes sociales" data-anim-video></video>
+                </figure>
               </>
             )}
             {s.arte === 'web' && (
@@ -53,10 +53,12 @@ const slides = servicios.map((s, i) => ({ ...s, ...extra[i] }));
               <>
                 <i class="shape circle item" style="--d: .5s" aria-hidden="true"></i>
                 <i class="shape quarter item" style="--d: .56s" aria-hidden="true"></i>
-                <figure class="logo item" style="--d: .24s; --r: -5deg"><Image src={logoFn} alt="Logo de F&N Agency" width={600} /></figure>
-                <figure class="cover c1 item" style="--d: .34s; --r: 5deg"><Image src={portadaTotumazo} alt="Portada de reel con el título Totumazo" width={243} /></figure>
-                <figure class="cover c2 item" style="--d: .42s; --r: -6deg"><Image src={portada2x1} alt="Portada de reel de Búfalo Burguer: 2x1 doble carne" width={243} /></figure>
-                <figure class="cover c3 item" style="--d: .5s; --r: 4deg"><Image src={portadaLocalidad} alt="Portada de video de La Calle del Vallenato: nueva localidad" width={244} /></figure>
+                <figure class="clip item" style="--d: .24s; --r: -4deg">
+                  <video src="/media/rumbo-visas.mp4" poster="/media/rumbo-visas.jpg" muted loop playsinline preload="none" aria-label="Video animado de ejemplo para un servicio de visas" data-anim-video></video>
+                </figure>
+                <figure class="mark m1 item" style="--d: .34s; --r: 5deg"><Image src={logoNaturalBless} alt="Logo de Natural Bless" width={320} /></figure>
+                <figure class="mark m2 item" style="--d: .42s; --r: -4deg"><Image src={logoSouthStreet} alt="Logo de South Street Lofts" width={320} /></figure>
+                <figure class="mark m3 item" style="--d: .5s; --r: 3deg"><Image src={logoPuebloDominican} alt="Logo de Pueblo Dominican Hair Salon" width={320} /></figure>
               </>
             )}
           </div>
@@ -105,15 +107,27 @@ const slides = servicios.map((s, i) => ({ ...s, ...extra[i] }));
     let current = 0;
     let byUser = false;
     let focused = false;
-    let offscreen = false;
+    let offscreen = true;
 
     slides.forEach((s, i) => { s.inert = i !== 0; });
+
+    const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const videos = slides.map((s) => s.querySelector<HTMLVideoElement>('[data-anim-video]'));
+    const syncVideos = () => {
+      videos.forEach((v, i) => {
+        if (!v) return;
+        if (i === current && !calm && !offscreen && !byUser && !focused) v.play().catch(() => {});
+        else v.pause();
+      });
+    };
 
     const syncPause = () => {
       root.classList.toggle('paused', byUser || focused || offscreen);
       root.classList.toggle('stopped', byUser);
       pauseBtn.setAttribute('aria-label', byUser ? 'Reproducir' : 'Pausar');
+      syncVideos();
     };
+    syncPause();
 
     const go = (next: number) => {
       const target = (next + slides.length) % slides.length;
@@ -128,6 +142,9 @@ const slides = servicios.map((s, i) => ({ ...s, ...extra[i] }));
       frame.style.setProperty('--on', slides[target].dataset.on!);
       frame.style.setProperty('--c', slides[target].dataset.c!);
       current = target;
+      const video = videos[current];
+      if (video) video.currentTime = 0;
+      syncVideos();
     };
 
     tabs.forEach((t, i) => t.addEventListener('click', () => go(i)));
@@ -219,12 +236,14 @@ const slides = servicios.map((s, i) => ({ ...s, ...extra[i] }));
   .browser :global(img) { height: auto; }
   .mobile { position: absolute; right: 0; bottom: 3%; width: 25%; aspect-ratio: 390 / 844; border: 6px solid #0B0B0B; border-radius: 26px; overflow: hidden; background: #0B0B0B; box-shadow: 0 30px 60px -24px rgba(11, 11, 11, .8); }
 
-  .logo, .cover { position: absolute; overflow: hidden; box-shadow: 0 30px 60px -26px rgba(11, 11, 11, .7); }
-  .logo { left: 2%; top: 22%; width: 46%; aspect-ratio: 1; border-radius: 30px; z-index: 2; }
-  .cover { aspect-ratio: 243 / 407; width: 25%; border-radius: 18px; }
-  .c1 { left: 41%; top: 0; }
-  .c2 { left: 72%; top: 12%; z-index: 2; }
-  .c3 { left: 50%; bottom: 0; z-index: 3; }
+  .clip, .mark { position: absolute; overflow: hidden; box-shadow: 0 30px 60px -26px rgba(11, 11, 11, .7); }
+  .clip { left: 4%; top: 6%; height: 88%; width: min(40%, 49svh, 297px); border: 7px solid #0B0B0B; border-radius: 28px; background: #0B0B0B; z-index: 2; }
+  .clip video, .phone video { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .mark { width: min(var(--mark-width), 29svh, 225px); aspect-ratio: 1; border: 2px solid #0B0B0B; border-radius: clamp(12px, 2vw, 25px); background: #FFFFFF; z-index: 3; box-shadow: 7px 9px 0 var(--mark-shadow); }
+  .art .mark :global(img) { object-fit: contain; object-position: center; }
+  .m1 { --mark-width: 26%; --mark-shadow: #FFC21A; left: 48%; top: 4%; }
+  .m2 { --mark-width: 23%; --mark-shadow: #2F5BFF; right: 1%; top: 31%; }
+  .m3 { --mark-width: 30%; --mark-shadow: #1FC99A; left: 47%; bottom: 4%; }
   .shape { position: absolute; display: block; }
   .circle { width: 15%; aspect-ratio: 1; left: 4%; top: 2%; border-radius: 50%; background: #FFC21A; }
   .quarter { width: 19%; aspect-ratio: 1; right: 1%; bottom: 3%; background: #0B0B0B; border-radius: 100% 0 0 0; }
@@ -269,8 +288,9 @@ const slides = servicios.map((s, i) => ({ ...s, ...extra[i] }));
     .label b { display: none; }
     .round { width: 44px; height: 44px; }
     .phone { border-width: 5px; border-radius: 20px; }
-    .logo { border-radius: 20px; }
-    .cover { border-radius: 12px; }
+    .art.design { width: min(100%, 470px); margin-inline: auto; }
+    .clip { left: 2%; border-width: 5px; border-radius: 20px; }
+    .mark { border-width: 1px; box-shadow: 4px 5px 0 var(--mark-shadow); }
     .browser { border-radius: 10px; }
     .bar { height: 24px; }
     .bar i { width: 7px; height: 7px; }

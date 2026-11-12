@@ -30,7 +30,7 @@ const right: Tile[] = [
     <div class="copy">
       <span class="eyebrow" data-fade>Viralizando y posicionando marcas · Cali</span>
       <h1 data-split>
-        Impulsamos tu negocio a salir del <span class="hl">anonimato</span> en redes sociales.
+        Impulsamos <span class="phrase">tu&nbsp;negocio</span> a <span class="desktop-phrase">salir <span class="phrase">del&nbsp;<span class="hl">anonimato</span></span></span> <span class="desktop-phrase">en redes sociales.</span>
       </h1>
       <p class="lede" data-fade>Estrategia de redes sociales, sitios web y animación para restaurantes y negocios locales. Ya sumamos más de 7 millones de visualizaciones en 30 días para nuestros clientes.</p>
       <div class="ctas" data-fade>
@@ -73,6 +73,11 @@ const right: Tile[] = [
   .grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 64px); align-items: center; }
   .copy { min-width: 0; position: relative; z-index: 2; }
   h1 { font-size: clamp(2.6rem, 6vw, 6.4rem); margin-top: 22px; }
+  .phrase { white-space: nowrap; }
+  @media (min-width: 901px) {
+    .desktop-phrase { display: block; white-space: nowrap; }
+    h1 { font-size: clamp(2.6rem, 5.45vw, 6.4rem); }
+  }
   .hl { position: relative; display: inline-block; isolation: isolate; white-space: nowrap; }
   .hl::after {
     content: ""; position: absolute; left: -.04em; right: -.04em; bottom: .06em; height: .26em; background: var(--yellow); z-index: -1;
@@ -107,8 +112,26 @@ const right: Tile[] = [
 
 
   @media (max-width: 900px) {
-    .hero { padding-top: 92px; }
-    .grid { grid-template-columns: 1fr; }
-    .art { order: -1; max-width: 520px; justify-self: center; }
+    .hero { padding-block: 94px 48px; }
+    .grid {
+      grid-template-columns: minmax(0, 1.18fr) minmax(0, 1fr);
+      grid-template-areas: "eyebrow eyebrow" "title art" "description description" "actions actions";
+      gap: 16px clamp(8px, 2vw, 20px);
+      align-items: start;
+    }
+    .copy { display: contents; }
+    .copy .eyebrow { grid-area: eyebrow; }
+    h1 { grid-area: title; font-size: clamp(1.75rem, 7.4vw, 4.4rem); margin: clamp(24px, 7vw, 52px) 0 0; text-align: left; text-wrap: wrap; }
+    .lede { grid-area: description; margin-top: 6px; }
+    .ctas { grid-area: actions; margin-top: 3px; }
+    .art { grid-area: art; aspect-ratio: 1 / 1.36; max-width: 390px; justify-self: center; align-self: center; }
+    .slot-main { width: 57%; right: 21%; top: 4%; }
+    .slot-left { width: 42%; right: 55%; top: 20%; }
+    .slot-right { width: 42%; right: 4%; top: 29%; }
+    .phone, .slot-left .phone-back, .slot-right .phone-back {
+      border-width: clamp(2px, .65vw, 5px);
+      border-radius: clamp(6px, 2vw, 15px);
+    }
+    .phone figcaption, .phone-back figcaption { display: none; }
   }
 </style>

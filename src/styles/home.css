@@ -12,7 +12,7 @@
   --font-display: "Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
   --font-body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "DM Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
-  --gutter: clamp(16px, 3vw, 40px);
+  --gutter: 150px;
   color-scheme: light;
 }
 
@@ -59,7 +59,14 @@ a { color: inherit; }
 /* split-text helpers */
 .line-mask { display: block; overflow: hidden; padding-bottom: .06em; margin-bottom: -.06em; }
 
+@media (max-width: 1200px) {
+  :root { --gutter: 90px; }
+}
+@media (max-width: 900px) {
+  :root { --gutter: 40px; }
+}
 @media (max-width: 560px) {
+  :root { --gutter: 20px; }
   body { font-size: 16px; }
 }
 @media (prefers-reduced-motion: reduce) {

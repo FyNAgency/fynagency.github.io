@@ -72,7 +72,8 @@ const id = (campo: string) => `${idPrefix}-${campo}`;
 
   <p class="error" role="alert" hidden data-error></p>
 
-  <button class="send" type="submit" data-send>Enviar datos</button>
+  <button class="send" type="submit" data-send disabled>Enviar datos</button>
+  <p class="hint" data-hint>Marca la autorización para activar el botón.</p>
 
   <div class="done" hidden data-done>
     <p><b>¡Listo, recibimos tus datos!</b> Te escribiremos pronto. Si prefieres, sigue la conversación ya mismo:</p>
@@ -89,6 +90,16 @@ const id = (campo: string) => `${idPrefix}-${campo}`;
     const done = form.querySelector<HTMLElement>('[data-done]')!;
     const wa = form.querySelector<HTMLAnchorElement>('[data-wa]')!;
     const numero = form.dataset.whatsapp ?? '';
+    const hint = form.querySelector<HTMLElement>('[data-hint]')!;
+    const acepto = form.querySelector<HTMLInputElement>('input[name="acepto"]')!;
+
+    // the send button only works once the privacy authorization is checked
+    const syncSend = () => {
+      send.disabled = !acepto.checked;
+      hint.hidden = acepto.checked;
+    };
+    acepto.addEventListener('change', syncSend);
+    syncSend();
 
     // a "?interes=…" in the URL (from a package button) preselects the option
     const elegido = new URLSearchParams(location.search).get('interes');
@@ -171,7 +182,8 @@ const id = (campo: string) => `${idPrefix}-${campo}`;
     transition: background-color .2s ease, transform .2s ease;
   }
   .send:hover, .wa:hover { background: #FFFFFF; transform: translateY(-2px); }
-  .send:disabled { opacity: .6; cursor: progress; transform: none; }
+  .send:disabled { opacity: .45; cursor: not-allowed; transform: none; background: var(--yellow); }
+  .hint { color: #BDBDBD; font-size: .9rem; margin-top: -6px; }
   .done { display: grid; gap: 14px; justify-items: start; font-size: 1.05rem; }
   @media (max-width: 640px) {
     .fields { grid-template-columns: 1fr; }
